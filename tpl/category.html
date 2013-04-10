@@ -3,14 +3,21 @@
     <h1 class="title">Category</h1>
     <!--<a class="button" href="#menu">Menu</a>-->
 </header>
-<div class="content content-padded">
-{{#if .}}
-    <!--<img src="https://graph.facebook.com/{{ id }}/picture?width=150&height=150" class="avatar" />-->
-    <h2>{{ name }}</h2>
-    <p>{{sex}}, {{cnt}}</p>
-    <br/>
-    <!--<a href="#person/{{ id }}/friends" class="button-block">Friends</a>
-    <a href="#person/{{ id }}/mutualfriends" class="button-block">Mutual Friends</a>
-    <a href="#person/{{ id }}/feed" class="button-block">Feed</a>-->
-{{/if}}
+
+<div class="content">
+
+    {{#if .}}
+    <ul class="list">
+        {{#each .}}
+        <li style="clear: both">
+            <a href="#categories/{{category}}">
+                {{name}}
+                {{cnt}}
+                <span class="chevron"></span>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+
 </div>

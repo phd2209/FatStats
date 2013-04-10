@@ -13,12 +13,18 @@ fbWrapper = {
         }
         return deferred;
     },
-    batch: function (url, num) {
+
+    batch: function (num) {
         var deferred = $.Deferred();
         try {
-            console.log('calling fb api in batch');
+            console.log('calling fb api in batch'+num);
             for (i = 0; i < num ; i++) {
-                FB.api(url, function (response) {
+                FB.api('/', 'POST', {
+                    batch: [
+                        { method: 'GET', name: 'get-friends', "omit_response_on_success": false, relative_url: 'me/friends?fields=id,name,locale,gender&limit=50&offset=' + i * 50 },
+                        { method: 'GET', "omit_response_on_success": false, relative_url: 'likes?ids={result=get-friends:$.data.*.id}' }
+                    ]
+                }, function (response) {
 
                     //Count down fetches
                     window.fetches--;

@@ -68,31 +68,54 @@ var userCollection = new Array();
 var categories = [];
 var selectedcats = [];
 
-$(document).on('ready', function () {
 
-    fb.templateLoader.load(['welcome', 'error', 'categories', 'category'], function () {
-        fb.router = new fb.MobileRouter();
-        Backbone.history.start();
-        FB.init({ appId: "414742111944048", nativeInterface: CDV.FB, useCachedDialogs: false, status: true });
+window.fbAsyncInit = function () {
+
+    FB.init({
+        appId: '414742111944048',
+        status: false,
+        cookie: true,
+        xfbml: true,
+        frictionlessRequests: true,
+        useCachedDialogs: true,
+        oauth: true
     });
 
     FB.Event.subscribe('auth.statusChange', function(event) {
         if (event.status === 'connected') {
             FB.api('/fql', { 'q': 'SELECT uid, name, locale, friend_count FROM user WHERE uid = me()' }, function (response) {
-                fb.user = response; // Store the newly authenticated FB user
+                fb.user = response; 
                 fbid = response.data.uid;
-                fetches = Math.ceil(response.data[0].friend_count / 50);
-                country = response.data[0].locale;
-                console.log(fb.user);
+                window.fetches = Math.ceil(response.data[0].friend_count / 50);
+                window.country = response.data[0].locale;
+                console.log("window.fetches"+ window.fetches);
+                fb.slider.removeCurrentPage();
+                fb.router.navigate("categories", { trigger: true });
             });
-            fb.slider.removeCurrentPage();
-            fb.router.navigate("categories", { trigger: true });
         } else {
             fb.user = null; // Reset current FB user
             fb.router.navigate("", {trigger: true});
         }
-    });
+    });    
+};
 
+(function (d) {
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) { return; }
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+}(document));
+
+
+
+
+$(document).on('ready', function () {
+
+    fb.templateLoader.load(['welcome', 'error', 'categories', 'category'], function () {
+        fb.router = new fb.MobileRouter();
+        Backbone.history.start();
+    });
 });
 
 $(document).on('click', '.button.back', function() {
