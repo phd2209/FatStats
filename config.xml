@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.kodo.fatstats"
+        versionCode = "10" 
+        version   = "1.0.0">
+<!--  https://www.google.dk/search?q=kodo+and+podo&aq=0&oq=kodo+and&aqs=chrome.1.57j0l3.10995&sourceid=chrome&ie=UTF-8 -->
+    <!-- versionCode is optional and Android only    607816610 appstore id-->
+
+    <name>FatStats</name>
+
+    <description>
+        facebook like stats, by two developers 
+    </description>
+
+   <!-- <author href="https://build.phonegap.com" email="support@phonegap.com">
+        Hardeep Shoker 
+    </author>-->
+
+    <!--   PHONEGAP PREFERENCES   e720617c8ef9cb91b2e532646685bac0b8bdecc5  mit serienummer    -->
+
+    <preference name="orientation" value="portrait" />
+    <preference name="target-device" value="handset" />
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="load-url-timeout" value="50000" />
+
+
+    <!--   PHONEGAP FEATURES    -->
+
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/geolocation"/><!-- kan være den er optional så vi bare spørg brugeren om lov undervejs, comparer chekins med brugers lokation, allestedsnærverende sjo app -->
+    <feature name="http://api.phonegap.com/1.0/media"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    <feature name="http://api.phonegap.com/1.0/notification"/>
+
+    <!--   PHONEGAP PLUGINS  123456  -->
+     <gap:plugin name="FacebookConnect">
+        <param name="APP_ID" value="414742111944048" />
+    </gap:plugin>
+
+    <!--   ACCESS     -->
+    <access origin="*" subdomains="true" />
+
+</widget>
