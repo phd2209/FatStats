@@ -54,11 +54,11 @@ fb.MobileRouter = Backbone.Router.extend({
         var self = this;
         var view = new fb.views.Category({ template: fb.templateLoader.get('category') });
         var slide = fb.slider.slidePage(view.$el).done(function () {
-            fb.spinner.show();
+            //fb.spinner.show();
         });
         view.model = getLikes(id);
         view.render();
-        fb.spinner.hide();
+        //fb.spinner.hide();
     }
 });
 
