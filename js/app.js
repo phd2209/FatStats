@@ -79,14 +79,14 @@ $(document).on('ready', function () {
     FB.Event.subscribe('auth.statusChange', function(event) {
         if (event.status === 'connected') {
             FB.api('/fql', { 'q': 'SELECT uid, name, locale, friend_count FROM user WHERE uid = me()' }, function (response) {
-                fb.user = response; // Store the newly authenticated FB user
+                fb.user = response;
                 fbid = response.data.uid;
-                fetches = Math.ceil(response.data[0].friend_count / 50);
-                country = response.data[0].locale;
-                console.log(fb.user);
+                window.fetches = Math.ceil(response.data[0].friend_count / 50);
+                window.country = response.data[0].locale;
+                console.log("window.fetches" + window.fetches);
+                fb.slider.removeCurrentPage();
+                fb.router.navigate("categories", { trigger: true });
             });
-            fb.slider.removeCurrentPage();
-            fb.router.navigate("categories", { trigger: true });
         } else {
             fb.user = null; // Reset current FB user
             fb.router.navigate("", {trigger: true});
