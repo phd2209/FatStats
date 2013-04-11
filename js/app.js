@@ -58,6 +58,7 @@ fb.MobileRouter = Backbone.Router.extend({
         });
         view.model = getLikes(id);
         view.render();
+        fb.spinner.hide();
     }
 });
 
