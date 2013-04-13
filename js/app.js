@@ -179,7 +179,7 @@ function removeSmallLikes(list) {
 }
 
 function getLikes(cat) {
-    console.log()
+   
     //var sex;
     var number = 1000;
     var likes = [];
@@ -203,7 +203,7 @@ function getLikes(cat) {
 
 //Inserts categories into into an array;
 function insertCategory(list, cat) {
-    console.log("cat " + cat)
+    //console.log("cat " + cat)
     for (var i = 0; i < list.length; i++) {
         if (cat === list[i].category) {
             list[i].cnt += 1;
