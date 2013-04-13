@@ -1,19 +1,19 @@
 <header class="bar-title">
     <!--<a class="button back" href="#">Back</a>-->
     <h1 class="title">Categories</h1>
-    <!--<a class="button" href="#menu">Menu</a>-->
+    <!--<a class="button" href="#menu">Menu</a><span class="chevron"></span>-->
 </header>
 
 <div class="content">
 
     {{#if .}}
-    <ul class="list">
+    <ul class="list categories">
         {{#each .}}
         <li style="clear: both" id="">
             <a href="#categories/{{link}}">
                 {{category}}
-                {{cnt}}
-                <span class="chevron"></span>
+                <span class="numberCircle">{{index}}</span>
+                
             </a>
         </li>
         {{/each}}

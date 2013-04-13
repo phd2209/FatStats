@@ -39,7 +39,8 @@ fb.MobileRouter = Backbone.Router.extend({
 
         $.when(slide, call)
             .done(function (slideResp, callResp) {
-                fb.myCategoriesView.model = getCategories();
+                fb.myCategoriesView.model = indexCategories(getCategories());//modified by tweenman
+                //fb.myCategoriesView.model = getCategories();
                 fb.myCategoriesView.render();
             })
             .fail(function () {
@@ -65,7 +66,7 @@ fb.MobileRouter = Backbone.Router.extend({
 var fbid;
 var country;
 var fetches;
-var userCollection = new Array();
+var userCollection = [];
 var categories = [];
 var selectedcats = [];
 
@@ -157,7 +158,16 @@ function getCategories() {
 
     return removeSmallLikes(selectedcats);
 }
-
+//used to parse index into mustacche json
+function indexCategories(arr){
+    var obj_array = [];
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        obj.index = (i+1);
+        obj_array.push(obj);
+    };
+     return obj_array;
+}
 function removeSmallLikes(list) {
     var categories = [];
     for (var i = 0; i < list.length; i++) {

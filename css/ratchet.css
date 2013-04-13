@@ -90,7 +90,11 @@ video {
   margin: 0;
   border: 0;
 }
-
+@font-face
+{
+font-family: Open-sans-regular;
+src: url('../fonts/OpenSans-Regular.ttf');
+}
 /* Prevents iOS text size adjust after orientation change, without disabling (Thanks to @necolas) */
 html {
   -webkit-text-size-adjust: 100%;
@@ -106,7 +110,8 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  font: 14px/1.25 "Helvetica Neue", sans-serif;
+  font: 14px/1.25 Open-sans-regular, sans-serif;
+  /*font: 14px/1.25 "Helvetica Neue", sans-serif;*/
   color: #222;
   background-color: #fff;
 }
@@ -205,29 +210,36 @@ a {
   top: 0;
   display: -webkit-box;
   display: box;
-  background-color: #1eb0e9;
+  /*background-color: #1eb0e9;
   background-image: -webkit-linear-gradient(top, #1eb0e9 0, #109adc 100%);
   background-image: linear-gradient(to bottom, #1eb0e9 0, #109adc 100%);
   border-bottom: 1px solid #0e5895;
-  box-shadow: inset 0 1px 1px -1px rgba(255, 255, 255, .8);
+  box-shadow: inset 0 1px 1px -1px rgba(255, 255, 255, .8);*/
+ 
   -webkit-box-orient: horizontal;
           box-orient: horizontal;
+
+  background-color: #FFF;
+  border-bottom-color: #333333; 
+  border-bottom-width: 1px; 
+  border-bottom-style: dashed;
 }
 
 /* Centered text in the .bar-title */
 .bar-title .title {
-  position: absolute;
+  position: absolute; 
   top: 0;
   left: 0;
   display: block;
   width: 100%;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 16px;
+  
   line-height: 44px;
-  color: #fff;
+  color: #000;
+  text-transform: uppercase;
   text-align: center;
-  text-shadow: 0 -1px rgba(0, 0, 0, .5);
   white-space: nowrap;
+  /*background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQIW2NkQAX/GZH4/4FsRpgAmAOSBBFwDkgAAIKuBATRTAAZAAAAAElFTkSuQmCC) repeat;*/
 }
 
 .bar-title > a:not([class*="button"]) {
@@ -503,12 +515,12 @@ a {
 .list li {
   position: relative;
   padding: 20px 60px 20px 10px; /* Given extra right padding to accomodate counts, chevrons or buttons */
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  /*border-bottom: 1px solid rgba(0, 0, 0, .1);*/
 }
 
 /* Give top border to first list items */
 .list li:first-child {
-  border-top: 1px solid rgba(0, 0, 0, .1);
+  /*border-top: 1px solid rgba(0, 0, 0, .1);*/
 }
 
 /* If a list of links, make sure the child <a> takes up full list item tap area (want to avoid selecting child buttons though) */
@@ -518,6 +530,34 @@ a {
   padding: inherit;
   margin: -20px -60px -20px -10px;
   color: inherit;
+}
+.list.categories li { background: rgb(250, 250, 250)!important; }
+
+.list.categories li:nth-child(odd) { background: #fff!important; }
+
+.list.categories li > a:not([class*="button"]) {
+  /*padding: 30px!important;
+  padding-left: 8px;
+  font-size: 24px!important;*/
+  padding: 25px!important;
+  padding-left: 8px!important;
+  font-size: 12px!important;
+
+}
+.list.categories li span {
+  position: absolute;
+ 
+top: 18px;
+right: 8px;
+border-radius: 90px;
+width: 25px;
+height: 25px;
+text-align: center;
+line-height: 25px;
+background: #000;
+color: white;
+padding: 3px 3px !important;
+font-size: 12px;
 }
 
 /* Inset list
