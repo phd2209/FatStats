@@ -39,7 +39,7 @@ fb.MobileRouter = Backbone.Router.extend({
 
         $.when(slide, call)
             .done(function (slideResp, callResp) {
-                fb.myCategoriesView.model = getCategories();
+                fb.myCategoriesView.model = indexCategories(getCategories());
                 fb.myCategoriesView.render();
             })
             .fail(function () {
@@ -65,7 +65,7 @@ fb.MobileRouter = Backbone.Router.extend({
 var fbid;
 var country;
 var fetches;
-var userCollection = new Array();
+var userCollection = [];//new Array();
 var categories = [];
 var selectedcats = [];
 
@@ -73,7 +73,7 @@ var selectedcats = [];
 window.fbAsyncInit = function () {
 
     FB.init({
-        appId: '414742111944048',
+        appId: '149007668605706',
         status: false,
         cookie: true,
         xfbml: true,
@@ -186,13 +186,14 @@ function removeSmallLikes(list) {
     for (var i = 0; i < list.length; i++) {
         var obj = list[i];
         if (obj.cnt >= 5)
+
             categories.push(obj);
     }
     return categories;
 }
 
 function getLikes(cat) {
-    console.log()
+    
     //var sex;
     var number = 1000;
     var likes = [];
@@ -244,6 +245,15 @@ function insertlike(list, name, id) {
     list.push(obj);
 }
 
+function indexCategories(arr){
+    var obj_array = [];
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        obj.index = (i+1);
+        obj_array.push(obj);
+    };
+     return obj_array;
+}
 //Utitlity function to calculate pct;
 function CalculatePct(list) {
     var total = 0;
