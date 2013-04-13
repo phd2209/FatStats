@@ -2,20 +2,20 @@
 fbWrapper = {
 
     api: function(url) {
-        var deferred = $.Deferred();
+        var apidef = $.Deferred();
         try {
             console.log('calling fb api');
             FB.api(url, function (response) {
-                deferred.resolve(response);
+                apidef.resolve(response);
             });
         } catch (e) {
-            deferred.fail();
+            apidef.fail();
         }
-        return deferred;
+        return apidef;
     },
 
     batch: function (num) {
-        var deferred = $.Deferred();
+        var batchdef = $.Deferred();
         try {
             console.log('calling fb api in batch'+num);
             for (i = 0; i < num ; i++) {
@@ -27,7 +27,7 @@ fbWrapper = {
                 }, function (response) {
 
                     //Count down fetches
-                    window.fetches--;
+                    fb.fetches--;
 
                     var body = JSON.parse(response[0].body);
 
@@ -37,27 +37,27 @@ fbWrapper = {
                         fbuser.name = user.name;
                         fbuser.country = user.locale;
                         fbuser.sex = user.gender;
-                        window.userCollection.push(fbuser);
+                        fb.userCollection.push(fbuser);
                     });
 
                     body = JSON.parse(response[1].body);
 
                     $.each(body, function (id, user) {
-                        for (var i = 0; i < window.userCollection.length; i++) {
-                            if (id === window.userCollection[i].id) {
-                                window.userCollection[i].likes = user.data;
-                                window.userCollection[i].likescount = user.data.length;
+                        for (var i = 0; i < fb.userCollection.length; i++) {
+                            if (id === fb.userCollection[i].id) {
+                                fb.userCollection[i].likes = user.data;
+                                fb.userCollection[i].likescount = user.data.length;
                                 break;
                             }
                         }
                     });
 
-                    if (window.fetches === 0) { deferred.resolve(response) };
+                    if (fb.fetches === 0) { batchdef.resolve(response) };
                 });
             }
         } catch (e) {
-            deferred.fail();
+            batchdef.fail();
         }
-        return deferred;
+        return batchdef;
     }
 }

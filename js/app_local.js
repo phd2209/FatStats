@@ -12,18 +12,45 @@ fb.slider = new PageSlider($('#container'));
 fb.MobileRouter = Backbone.Router.extend({
 
     routes: {
-        "": "welcome",
+        "": "login",
+        "welcome": "welcome",
         "categories": "categories",
-        "categories/:id": "category"
+        "categories/:id": "category",
+        "likes/:id": "like"
     },
 
-    welcome: function () {
+    login: function () {
         // Reset cached views
         fb.myCategoriesView = null;
-        var view = new fb.views.Welcome();
+        fb.myWelcomeView = null;
+        var view = new fb.views.Login();
         fb.slider.slidePageFrom(view.$el, "left");
     },
+    welcome: function () {
+        var self = this;
+        if (fb.myWelcomeView) {
+            fb.slider.slidePage(fb.myWelcomeView.$el);
+            return;
+        }
+        fb.myWelcomeView = new fb.views.Welcome({ template: fb.templateLoader.get('welcome') });
+        var slide = fb.slider.slidePage(fb.myWelcomeView.$el).done(function () {
+            fb.spinner.show();
+        });
+        var call1 = fbWrapper.batch(fb.fetches);
 
+        $.when(slide, call1)
+            .done(function (slideResp, callResp) {
+                fb.myWelcomeView.model = fb.getWelcomeMessage();
+                fb.myWelcomeView.render();
+            })
+            .fail(function () {
+                self.showErrorPage();
+            })
+            .always(function () {
+                fb.spinner.hide();
+            });
+
+    },
     categories: function () {
         console.log("Entered Categories");
         var self = this;
@@ -33,21 +60,21 @@ fb.MobileRouter = Backbone.Router.extend({
         }
         fb.myCategoriesView = new fb.views.Categories({ template: fb.templateLoader.get('categories') });
         var slide = fb.slider.slidePage(fb.myCategoriesView.$el).done(function () {
-            fb.spinner.show();
+            //fb.spinner.show();
         });
-        var call = fbWrapper.batch(window.fetches);
+        //var call = fbWrapper.batch(fb.fetches);
 
-        $.when(slide, call)
-            .done(function (slideResp, callResp) {
-                fb.myCategoriesView.model = indexCategories(getCategories());
+        //$.when(slide, call)
+        //    .done(function (slideResp, callResp) {
+                fb.myCategoriesView.model = fb.getCategories();
                 fb.myCategoriesView.render();
-            })
-            .fail(function () {
-                self.showErrorPage();
-            })
-            .always(function () {
-                fb.spinner.hide();
-            });
+        //    })
+        //    .fail(function () {
+        //        self.showErrorPage();
+        //    })
+        //    .always(function () {
+        //        fb.spinner.hide();
+        //    });
     },
 
     category: function (id) {
@@ -56,24 +83,39 @@ fb.MobileRouter = Backbone.Router.extend({
         var slide = fb.slider.slidePage(view.$el).done(function () {
             //fb.spinner.show();
         });
-        view.model = getLikes(id);
+        view.model = fb.getLikes(id);
         view.render();
         //fb.spinner.hide();
+    },
+    like: function (id) {
+        console.log("LIKE CALLED");
+        var self = this;
+        var lview = new fb.views.Like({ template: fb.templateLoader.get('like') });
+        var slide1 = fb.slider.slidePage(lview.$el).done(function () {
+            fb.spinner.show();
+        });
+        var call2 = fbWrapper.api("/" + id);
+        $.when(call2)
+            .done(function (callResp) {
+                console.log("done");
+                lview.model = callResp;
+                lview.render();
+            })
+            .fail(function () {
+                console.log("error");
+                self.showErrorPage();
+            })
+            .always(function () {
+                console.log("spinner hide");
+                fb.spinner.hide();
+            });
     }
 });
-
-var fbid;
-var country;
-var fetches;
-var userCollection = [];//new Array();
-var categories = [];
-var selectedcats = [];
-
 
 window.fbAsyncInit = function () {
 
     FB.init({
-        appId: '149007668605706',
+        appId: '414742111944048',
         status: false,
         cookie: true,
         xfbml: true,
@@ -86,12 +128,11 @@ window.fbAsyncInit = function () {
         if (event.status === 'connected') {
             FB.api('/fql', { 'q': 'SELECT uid, name, locale, friend_count FROM user WHERE uid = me()' }, function (response) {
                 fb.user = response; 
-                fbid = response.data.uid;
-                window.fetches = Math.ceil(response.data[0].friend_count / 50);
-                window.country = response.data[0].locale;
-                console.log("window.fetches"+ window.fetches);
+                fb.fbid = response.data.uid;
+                fb.fetches = Math.ceil(response.data[0].friend_count / 50);
+                fb.country = response.data[0].locale;
                 fb.slider.removeCurrentPage();
-                fb.router.navigate("categories", { trigger: true });
+                fb.router.navigate("welcome", { trigger: true });
             });
         } else {
             fb.user = null; // Reset current FB user
@@ -113,7 +154,7 @@ window.fbAsyncInit = function () {
 
 $(document).on('ready', function () {
 
-    fb.templateLoader.load(['welcome', 'error', 'categories', 'category'], function () {
+    fb.templateLoader.load(['welcome', 'error', 'categories', 'category', 'like', 'login'], function () {
         fb.router = new fb.MobileRouter();
         Backbone.history.start();
     });
@@ -145,130 +186,3 @@ $(document).on('permissions_revoked', function () {
 });
 */
 
-
-function getCategories() {
-
-    var totalLikes = 0;
-    //var sex;
-    //var number = 35;
-    var usersWithLikes = 0;
-
-    for (var j = 0; j < userCollection.length; j++) {
-        var obj = userCollection[j];
-        totalLikes = totalLikes + obj.likescount;
-        //insertLikeIndex(likeindex, userCollection[j].likescount, "Total");
-
-        if (obj.likes != undefined | obj.likes == null) {
-            usersWithLikes = (obj.likes.length > 0) ? usersWithLikes + 1 : usersWithLikes + 0;
-            for (var i = 0; i < obj.likes.length; i++) {
-
-                if (userCollection[j].likes[i].category.toLowerCase() != "community") {
-                    userCollection[j].likes[i].link = userCollection[j].likes[i].category.replace(new RegExp("/", 'g'), "-");
-                    insertCategory(categories, userCollection[j].likes[i].category);
-                }
-            };
-        }
-    };
-
-    console.log("Friends with Likes: " + usersWithLikes);
-    console.log("Total Likes: " + totalLikes);
-    console.log("Number of Categories: " + categories.length);
-
-    sortByNum(categories);
-    selectedcats = categories.slice(0, Math.min(categories.length, 1000));
-
-
-    return removeSmallLikes(selectedcats);
-}
-
-function removeSmallLikes(list) {
-    var categories = [];
-    for (var i = 0; i < list.length; i++) {
-        var obj = list[i];
-        if (obj.cnt >= 5)
-
-            categories.push(obj);
-    }
-    return categories;
-}
-
-function getLikes(cat) {
-    
-    //var sex;
-    var number = 1000;
-    var likes = [];
-
-    for (var j = 0; j < userCollection.length; j++) {
-        var obj = userCollection[j];
-
-        //sex = obj.sex;
-        for (var i = 0; i < obj.likes.length; i++) {
-
-            if (userCollection[j].likes[i].link === decodeURIComponent(cat.trim())) {
-                insertlike(likes, userCollection[j].likes[i].name, userCollection[j].likes[i].id);
-            }
-        };
-    };
-
-    sortByNum(likes);
-    var selectedlikes = likes.slice(0, Math.min(likes.length, number));
-    return selectedlikes;
-}
-
-//Inserts categories into into an array;
-function insertCategory(list, cat) {
-    console.log("cat " + cat)
-    for (var i = 0; i < list.length; i++) {
-        if (cat === list[i].category) {
-            list[i].cnt += 1;
-            return;
-        }
-    }
-
-    var obj;
-    var link = cat.replace(new RegExp("/", 'g'), "-");
-    obj = { "category": cat, "link": link, "cnt": 1 };
-    list.push(obj);
-}
-
-//Inserts likes into into an array;
-function insertlike(list, name, id) {
-    var obj;
-
-    for (var i = 0; i < list.length; i++) {
-        if (id === list[i].id) {
-            list[i].cnt += 1;
-            return;
-        }
-    }
-    obj = { "id": id, "name": name, "cnt": 1 };
-    list.push(obj);
-}
-
-function indexCategories(arr){
-    var obj_array = [];
-    for (var i = 0; i < arr.length; i++) {
-        var obj = arr[i];
-        obj.index = (i+1);
-        obj_array.push(obj);
-    };
-     return obj_array;
-}
-//Utitlity function to calculate pct;
-function CalculatePct(list) {
-    var total = 0;
-
-    for (var h = 0; h < list.length; h++) {
-        total = (list[h].sex.toLowerCase() === "total") ? total + list[h].cnt : total + 0;
-    }
-
-    for (var h = 0; h < list.length; h++) {
-        list[h].pct = Math.round(list[h].cnt / total * 100);
-    }
-}
-//Utitlity function to sort an array;
-function sortByNum(list) {
-    list.sort(function (b, a) {
-        return a.cnt - b.cnt;
-    })
-}

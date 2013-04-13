@@ -1,20 +1,15 @@
 <header class="bar-title">
     <a class="button back" href="#">Back</a>
     <h1 class="title">Like</h1>
-    <!--<a class="button" href="#menu">Menu</a>-->
+    <a class="button" href="#">Like</a>
 </header>
 
 <div class="content">
-
     {{#if .}}
-        Name: {{name}}
-        About: {{about}}
-        <span class="chevron"></span>
-        <img alt="" src="{{source}}" />
-        <span class="chevron"></span>
-        Likes: {{likes}}
-        <span class="chevron"></span>
-        link: {{link}};
+        <br />
+        <p>Name: {{name}}</p><br />
+        <p>Link: {{link}}</p><br />
+        <p>Total likes: {{likes}}</p><br />
+        <img alt="{{name}}" src="{{#cover}}{{source}}{{/cover}}" />
     {{/if}}
-
 </div>

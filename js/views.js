@@ -1,8 +1,8 @@
-fb.views.Welcome = Backbone.View.extend({
+fb.views.Login = Backbone.View.extend({
 
     initialize: function () {
         var self = this;
-        this.template = fb.templateLoader.get('welcome');
+        this.template = fb.templateLoader.get('login');
         this.render();
     },
 
@@ -22,6 +22,35 @@ fb.views.Welcome = Backbone.View.extend({
     }
 
 });
+
+fb.views.Welcome = Backbone.View.extend({
+
+    initialize: function () {
+        var self = this;
+        this.template = fb.templateLoader.get('welcome');
+        this.render();
+    },
+
+    render: function () {
+        this.$el.html(this.options.template(this.model));
+        return this;
+    },
+
+});
+
+fb.views.Like = Backbone.View.extend({
+
+    initialize: function () {
+        this.render();
+    },
+
+    render: function () {
+        this.$el.html(this.options.template(this.model));
+        return this;
+    }
+
+});
+
 
 fb.views.Category = Backbone.View.extend({
 
