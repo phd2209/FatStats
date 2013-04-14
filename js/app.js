@@ -59,49 +59,33 @@ fb.MobileRouter = Backbone.Router.extend({
             return;
         }
         fb.myCategoriesView = new fb.views.Categories({ template: fb.templateLoader.get('categories') });
-        var slide = fb.slider.slidePage(fb.myCategoriesView.$el).done(function () {
-            //fb.spinner.show();
-        });
-        //var call = fbWrapper.batch(fb.fetches);
-
-        //$.when(slide, call)
-        //    .done(function (slideResp, callResp) {
+        fb.slider.slidePage(fb.myCategoriesView.$el)
         fb.myCategoriesView.model = fb.getCategories();
         fb.myCategoriesView.render();
-        //    })
-        //    .fail(function () {
-        //        self.showErrorPage();
-        //    })
-        //    .always(function () {
-        //        fb.spinner.hide();
-        //    });
     },
 
     category: function (id) {
         var self = this;
         var view = new fb.views.Category({ template: fb.templateLoader.get('category') });
-        var slide = fb.slider.slidePage(view.$el).done(function () {
-            //fb.spinner.show();
-        });
+        fb.slider.slidePage(view.$el);
         view.model = fb.getLikes(id);
         view.render();
-        //fb.spinner.hide();
     },
+
     like: function (id) {
-        console.log("LIKE CALLED");
         var self = this;
-        var lview = new fb.views.Like({ template: fb.templateLoader.get('like') });
-        var slide1 = fb.slider.slidePage(lview.$el).done(function () {
-            fb.spinner.show();
-        });
-        var call2 = fbWrapper.api("/" + id);
-        $.when(call2)
+        var view = new fb.views.Like({ template: fb.templateLoader.get('like') });
+        fb.slider.slidePage(view.$el);
+        fb.spinner.show();
+        var call = fbWrapper.api("/" + id);
+        $.when(call)
             .done(function (callResp) {
-                lview.model = callResp;
-                lview.render();
                 fb.spinner.hide();
+                view.model = callResp;
+                view.render();
             })
             .fail(function () {
+                fb.spinner.hide();
                 self.showErrorPage();
             })
             .always(function () {
