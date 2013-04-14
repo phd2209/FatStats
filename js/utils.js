@@ -2,6 +2,7 @@ var MobileApp = function() {
 
     this.initialize = function () {
         this.fbid = 0;
+        this.name = "";
         this.country = "";
         this.fetches = 0;
         this.models = {};
@@ -53,6 +54,8 @@ var MobileApp = function() {
     this.getWelcomeMessage = function() {
 
         var Welcome = function () {
+            this.fbid = 0;
+            this.name = "";
             this.totalLikes = 0;
             this.usersWithLikes = 0;
             this.country = 0;
@@ -60,6 +63,8 @@ var MobileApp = function() {
             this.years = [];
         };
         var wel = new Welcome();
+        wel.name = fb.name;
+        wel.fbid = fb.fbid;
         var countries = [];
 
         for (var j = 0; j < this.userCollection.length; j++) {
@@ -85,31 +90,32 @@ var MobileApp = function() {
             }
         };
         wel.country = countries.length;
-        console.log("totalLikes" + wel.totalLikes);
-        console.log("usersWithLikes" + wel.usersWithLikes);
-        console.log("genders" + wel.genders.toString());
-        console.log("countries" + wel.country);
-        console.log("years" + wel.years.toString());
         return wel;
     }
 
 
     this.getCategories = function() {
 
+        var males = 0;
+        var females = 0;
         var categories = [];
 
         for (var j = 0; j < this.userCollection.length; j++) {
             var obj = this.userCollection[j];
-            //totalLikes = totalLikes + obj.likescount;
+
+            if (obj.sex != undefined) {
+                males = (obj.sex.toLowerCase() === "male") ? 1 : 0;
+                females = (obj.sex.toLowerCase() === "female") ? 1 : 0;
+            }
+                //totalLikes = totalLikes + obj.likescount;
             //insertLikeIndex(likeindex, userCollection[j].likescount, "Total");
 
             if (obj.likes != undefined | obj.likes == null) {
-                //usersWithLikes = (obj.likes.length > 0) ? usersWithLikes + 1 : usersWithLikes + 0;
                 for (var i = 0; i < obj.likes.length; i++) {
 
                     if (this.userCollection[j].likes[i].category.toLowerCase() != "community") {
                         this.userCollection[j].likes[i].link = this.userCollection[j].likes[i].category.replace(new RegExp("/", 'g'), "-");
-                        this.insertCategory(categories, this.userCollection[j].likes[i].category);
+                        this.insertCategory(categories, this.userCollection[j].likes[i].category, males, females);
                     }
                 };
             }
@@ -121,52 +127,62 @@ var MobileApp = function() {
     }
 
     this.getLikes = function(cat) {
-        //var sex;
+        var males = 0;
+        var females = 0;
         var number = 1000;
         var likes = [];
 
         for (var j = 0; j < this.userCollection.length; j++) {
             var obj = this.userCollection[j];
 
-            //sex = obj.sex;
+            if (obj.sex != undefined) {
+                males = (obj.sex.toLowerCase() === "male") ? 1 : 0;
+                females = (obj.sex.toLowerCase() === "female") ? 1 : 0;
+            }
+
             for (var i = 0; i < obj.likes.length; i++) {
 
                 if (this.userCollection[j].likes[i].link === decodeURIComponent(cat.trim())) {
-                    this.insertlike(likes, this.userCollection[j].likes[i].name, this.userCollection[j].likes[i].id, cat);
+                    this.insertlike(likes, this.userCollection[j].likes[i].name, this.userCollection[j].likes[i].id, cat, males, females);
                 }
             };
         };
 
         this.sortByNum(likes);
         var selectedlikes = likes.slice(0, Math.min(likes.length, number));
+        console.log(selectedlikes);
         return selectedlikes;
     }
 
-    this.insertCategory = function(list, cat) {
+    this.insertCategory = function(list, cat, males, females) {
         //console.log("cat " + cat)
         for (var i = 0; i < list.length; i++) {
             if (cat === list[i].category) {
                 list[i].cnt += 1;
+                list[i].males += males;
+                list[i].females += females;
                 return;
             }
         }
 
         var obj;
         var link = cat.replace(new RegExp("/", 'g'), "-");
-        obj = { "category": cat, "link": link, "cnt": 1 };
+        obj = { "category": cat, "link": link, "cnt": 1, "males": males, "females": females };
         list.push(obj);
     }
 
-    this.insertlike = function(list, name, id, cat) {
+    this.insertlike = function(list, name, id, cat, males, females) {
         var obj;
 
         for (var i = 0; i < list.length; i++) {
             if (id === list[i].id) {
                 list[i].cnt += 1;
+                list[i].males += males;
+                list[i].females += females;
                 return;
             }
         }
-        obj = { "id": id, "name": name, "category": cat, "cnt": 1 };
+        obj = { "id": id, "name": name, "category": cat, "cnt": 1, "males": males, "females": females };
         list.push(obj);
     }
 

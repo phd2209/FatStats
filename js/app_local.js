@@ -97,16 +97,14 @@ fb.MobileRouter = Backbone.Router.extend({
         var call2 = fbWrapper.api("/" + id);
         $.when(call2)
             .done(function (callResp) {
-                console.log("done");
                 lview.model = callResp;
                 lview.render();
+                fb.spinner.hide();
             })
             .fail(function () {
-                console.log("error");
                 self.showErrorPage();
             })
             .always(function () {
-                console.log("spinner hide");
                 fb.spinner.hide();
             });
     }
@@ -128,7 +126,8 @@ window.fbAsyncInit = function () {
         if (event.status === 'connected') {
             FB.api('/fql', { 'q': 'SELECT uid, name, locale, friend_count FROM user WHERE uid = me()' }, function (response) {
                 fb.user = response; 
-                fb.fbid = response.data.uid;
+                fb.fbid = response.data[0].uid;
+                fb.name = response.data[0].name;
                 fb.fetches = Math.ceil(response.data[0].friend_count / 50);
                 fb.country = response.data[0].locale;
                 fb.slider.removeCurrentPage();
