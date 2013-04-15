@@ -93,6 +93,7 @@ fb.MobileRouter = Backbone.Router.extend({
             });
     }
 });
+document.addEventListener("deviceready", onDeviceReady, false);
 
 $(document).on('ready', function () {
 
@@ -129,9 +130,26 @@ $(document).on('click', '.button.back', function() {
 $(document).on('login', function () {
     FB.login(function(response) {
         console.log("Logged In");
-    }, { scope: 'publish_actions,email,user_likes,friends_likes,read_stream' });
+    }, { scope: 'publish_actions,user_likes,friends_likes' });
     return false;
 });
+
+
+function onDeviceReady() {
+    document.addEventListener("pause", onPause, false);
+    document.addEventListener("resume", onResume, false);
+}
+
+function onPause() {
+    fb.lastUpdate = new Date();
+}
+
+function onResume() {
+    var currentDate = new Date();
+    if ((currentDate.getTime() - fb.lastUpdate.getTime() / 86400000) >= 2) {
+        fb.router.navigate("", { trigger: true });
+    }
+}
 
 /*
 $(document).on('click', '.logout', function () {
