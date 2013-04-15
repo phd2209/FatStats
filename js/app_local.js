@@ -166,7 +166,7 @@ function onPause() {
 function onResume() {
     var currentDate = new Date();
     if ((currentDate.getTime() - fb.lastUpdate.getTime() / 86400000) >= 2) {
-        fb.router.navigate("", { trigger: true });
+        fb.router.navigate("welcome", { trigger: true });
     }
 }
 
