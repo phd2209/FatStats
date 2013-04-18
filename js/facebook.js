@@ -21,6 +21,7 @@ fbWrapper = {
             for (i = 0; i < num ; i++) {
                 FB.api('/', 'POST', {
                     batch: [
+                        { method: 'GET', name: 'get-likes', "omit_response_on_success": false, relative_url: 'me/likes'},
                         { method: 'GET', name: 'get-friends', "omit_response_on_success": false, relative_url: 'me/friends?fields=id,name,locale,gender&limit=50&offset=' + i * 50 },
                         { method: 'GET', "omit_response_on_success": false, relative_url: 'likes?ids={result=get-friends:$.data.*.id}' }
                     ]
@@ -31,6 +32,19 @@ fbWrapper = {
 
                     var body = JSON.parse(response[0].body);
 
+                    if (body.data.length > 0) {
+                        var fbuser = new Object();
+                        fbuser.id = fb.fbid.toString();
+                        fbuser.name = fb.name;
+                        fbuser.country = fb.country;
+                        fbuser.sex = fb.sex;
+                        fb.userCollection.push(fbuser);
+                        fb.userCollection[0].likes = body.data;
+                        fb.userCollection[0].likescount = body.data.length;
+                    }
+
+                    var body = JSON.parse(response[1].body);
+
                     $.each(body.data, function (i, user) {
                         var fbuser = new Object();
                         fbuser.id = user.id;
@@ -40,7 +54,7 @@ fbWrapper = {
                         fb.userCollection.push(fbuser);
                     });
 
-                    body = JSON.parse(response[1].body);
+                    body = JSON.parse(response[2].body);
 
                     $.each(body, function (id, user) {
                         for (var i = 0; i < fb.userCollection.length; i++) {
@@ -51,7 +65,6 @@ fbWrapper = {
                             }
                         }
                     });
-
                     if (fb.fetches === 0) { batchdef.resolve(response) };
                 });
             }

@@ -108,10 +108,11 @@ window.fbAsyncInit = function () {
 
     FB.Event.subscribe('auth.statusChange', function(event) {
         if (event.status === 'connected') {
-            FB.api('/fql', { 'q': 'SELECT uid, name, locale, friend_count FROM user WHERE uid = me()' }, function (response) {
+            FB.api('/fql', { 'q': 'SELECT uid, name, sex, locale, friend_count FROM user WHERE uid = me()' }, function (response) {
                 fb.user = response; 
                 fb.fbid = response.data[0].uid;
                 fb.name = response.data[0].name;
+                fb.sex = response.data[0].sex;
                 fb.fetches = Math.ceil(response.data[0].friend_count / 50);
                 fb.country = response.data[0].locale;
                 fb.slider.removeCurrentPage();

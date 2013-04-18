@@ -109,6 +109,7 @@ $(document).on('ready', function () {
                 fb.user = response;
                 fb.fbid = response.data[0].uid;
                 fb.name = response.data[0].name;
+                fb.sex = response.data[0].sex;
                 fb.fetches = Math.ceil(response.data[0].friend_count / 50);
                 fb.country = response.data[0].locale;
                 fb.slider.removeCurrentPage();

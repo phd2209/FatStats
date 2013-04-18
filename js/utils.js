@@ -1,7 +1,7 @@
 var MobileApp = function() {
 
     this.initialize = function () {
-        this.fbid = 0;
+        this.fbid = "";
         this.lastUpdate = new Date();
         this.name = "";
         this.country = "";
