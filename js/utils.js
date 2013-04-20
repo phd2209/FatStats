@@ -219,8 +219,11 @@ var MobileApp = function() {
         var cumulative = 0;
         var sums = _.map(this.userCollection,function(obj){ cumulative += obj.likescount });
         var sorted = _.sortBy(this.userCollection, function(obj){ return -obj.likescount; });        
-        _.map(sorted, function (obj) { obj.likespct = Math.round((obj.likescount / cumulative) * 100) });
-        return sorted;
+        return _.map(sorted, function (obj) { obj.likespct = Math.round((obj.likescount / cumulative) * 100) });
+    }
+
+    this.getUserLikes = function (id) {
+        return _.find(this.userCollection, function(user) { return user.id == id });
     }
 
     this.initialize();
