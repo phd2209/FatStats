@@ -215,5 +215,13 @@ var MobileApp = function() {
         return categories;
     }
 
+    this.getUsersWithMostLikes = function () {
+        var cumulative = 0;
+        var sums = _.map(this.userCollection,function(obj){ cumulative += obj.likescount });
+        var sorted = _.sortBy(this.userCollection, function(obj){ return -obj.likescount; });        
+        _.map(sorted, function (obj) { obj.likespct = Math.round((obj.likescount / cumulative) * 100) });
+        return sorted;
+    }
+
     this.initialize();
 }
