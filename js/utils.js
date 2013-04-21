@@ -226,5 +226,29 @@ var MobileApp = function() {
         return _.find(this.userCollection, function(user) { return user.id == id });
     }
 
+    this.getTopLikes = function (sex) {
+        var topLikes = [];
+        var sortedLikes = [];
+        var males = 0;
+        var females = 0;
+        _.each(this.userCollection, function (user) {
+            if (user.sex != undefined) {
+                males = (user.sex.toLowerCase() === "male") ? 1 : 0;
+                females = (user.sex.toLowerCase() === "female") ? 1 : 0;
+            }
+            _.each(user.likes, function (likes) {
+               fb.insertlike(topLikes, likes.name, likes.id, "", males, females);
+            });
+        });
+
+        if (sex === undefined)
+            sortedLikes = _.sortBy(topLikes, function (obj) { return -obj.cnt; });
+        else if (sex === 'male')
+            sortedLikes = _.sortBy(topLikes, function (obj) { return -obj.males; });
+        else if(sex === 'female')
+            sortedLikes = _.sortBy(topLikes, function (obj) { return -obj.females; });
+        console.log(sortedLikes.slice(0,10));
+    }
+
     this.initialize();
 }
