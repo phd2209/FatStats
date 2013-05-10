@@ -15,6 +15,8 @@ fb.MobileRouter = Backbone.Router.extend({
         "": "login",
         "menu": "menu",
         "welcome": "welcome",
+        "toplikers": "toplikers",
+        "toplikes": "toplikes",
         "categories": "categories",
         "categories/:id": "category",
         "likes/:id": "like"
@@ -69,6 +71,25 @@ fb.MobileRouter = Backbone.Router.extend({
             });
 
     },
+
+    toplikers: function () {
+        console.log("Entered toplikers");
+        var self = this;
+        var view = new fb.views.Toplikers({ template: fb.templateLoader.get('toplikers') });
+        fb.slider.slidePage(view.$el);
+        view.model = fb.getUsersWithMostLikes();
+        view.render();
+    },
+
+    toplikes: function () {
+        console.log("Entered toplikes");
+        var self = this;
+        var view = new fb.views.Toplikes({ template: fb.templateLoader.get('toplikes') });
+        fb.slider.slidePage(view.$el);
+        view.model = fb.getTopLikes();
+        view.render();
+    },
+
     categories: function () {
         console.log("Entered Categories");
         var self = this;
@@ -115,7 +136,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 $(document).on('ready', function () {
 
-    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login'], function () {
+    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login', 'toplikers', 'toplikes'], function () {
         fb.router = new fb.MobileRouter();
         Backbone.history.start();
         FB.init({ appId: "414742111944048", nativeInterface: CDV.FB, useCachedDialogs: false, status: true });

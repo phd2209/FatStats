@@ -194,7 +194,7 @@ var MobileApp = function() {
         //console.log("wel.likescount with no community " + wel.likescount);
         this.sortByNum(userCategories);
         //70 kategorier
-        console.dir(userCategories)
+        //console.dir(userCategories)
         var topcategorieesforuser; //hvis mindre end 9 så vis dem, ellers 9 + resten
         var loopcount = Math.min(userCategories.length, 8);
         var donutColors = ["#660066", "#990099", "#476aa4", "#cc00cc", "#d9c3e9", "#55c6e4", "#55c6ec", "#55ccc", "#ccc"];
@@ -221,7 +221,7 @@ var MobileApp = function() {
 
             /* userCategories[i]*/
         };
-        console.dir(wel.donutObj);
+        //console.dir(wel.donutObj);
 
         wel.yourPercent = Math.round(wel.likescount / wel.totalLikes * 100);
         wel.toplikerName = topLiker.name;
@@ -374,8 +374,12 @@ var MobileApp = function() {
     this.getUsersWithMostLikes = function () {
         var cumulative = 0;
         var sums = _.map(this.userCollection,function(obj){ cumulative += obj.likescount });
-        var sorted = _.sortBy(this.userCollection, function(obj){ return -obj.likescount; });        
-        return _.map(sorted, function (obj) { obj.likespct = Math.round((obj.likescount / cumulative) * 100) });
+        //console.log(cumulative);
+        var sorted = _.sortBy(this.userCollection, function (obj) { return -obj.likescount; });
+        //console.log(sorted);
+        var ret = _.map(sorted, function (obj) { obj.likespct = Math.round((obj.likescount / cumulative) * 100) });
+        console.log(sorted);
+        return sorted;
     }
 
     this.getUserLikes = function (id) {
@@ -403,7 +407,7 @@ var MobileApp = function() {
             sortedLikes = _.sortBy(topLikes, function (obj) { return -obj.males; });
         else if(sex === 'female')
             sortedLikes = _.sortBy(topLikes, function (obj) { return -obj.females; });
-        console.log(sortedLikes.slice(0,10));
+        return sortedLikes.slice(0, 10);
     }
 
     this.initialize();

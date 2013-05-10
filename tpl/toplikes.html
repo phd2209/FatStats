@@ -1,0 +1,26 @@
+<header class="bar-title listview">
+    <h1 class="title listview2">Top Likes</h1>
+     <a class="backbtn" href="#welcome"></a>
+</header>
+
+<div class="content">
+    
+    {{#if .}}
+    <ul class="list categories">
+        {{#each .}}
+        <li style="clear: both">
+           <a class="measure topliker" href="#top">
+            <div class="welcome-likes-header">
+              <span>{{name}}</span>
+            </div>
+              <div class="profile-avatar">
+                <div class="circle" style="background: url(https://graph.facebook.com/{{ id }}/picture?width=60&height=60) no-repeat center center;">
+              </div>
+            </div>
+              <span class="num-likes">{{cnt}}<span class="likesmall"> likes</span></span>
+          </a>
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div>

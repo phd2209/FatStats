@@ -109,6 +109,32 @@ fb.views.Categories = Backbone.View.extend({
 
 });
 
+fb.views.Toplikers = Backbone.View.extend({
+
+    initialize: function () {
+        this.render();
+    },
+
+    render: function () {
+        this.$el.html(this.options.template(this.model));
+        return this;
+    }
+
+});
+
+fb.views.Toplikes = Backbone.View.extend({
+
+    initialize: function () {
+        this.render();
+    },
+
+    render: function () {
+        this.$el.html(this.options.template(this.model));
+        return this;
+    }
+
+});
+
 fb.views.Error = Backbone.View.extend({
 
     initialize: function () {
