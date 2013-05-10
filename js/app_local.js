@@ -3,7 +3,7 @@ window.addEventListener('load', function () {
 }, false);
 
 var fb = new MobileApp();
-
+fb.his;
 fb.spinner = $("#spinner");
 fb.spinner.hide();
 
@@ -44,6 +44,7 @@ fb.MobileRouter = Backbone.Router.extend({
 
 
     welcome: function () {
+        fb.his = Backbone.history.fragment;
         var self = this;
         if (fb.myWelcomeView) {
             fb.slider.slidePage(fb.myWelcomeView.$el);
