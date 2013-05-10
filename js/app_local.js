@@ -120,6 +120,12 @@ window.fbAsyncInit = function () {
             });
         } else {
             fb.user = null; // Reset current FB user
+            fb.fbid = "";
+            fb.name = "";
+            fb.sex = "";
+            fb.fetches = 0;
+            fb.country = "";
+            fb.userCollection = [];
             fb.router.navigate("", {trigger: true});
         }
     });    
@@ -171,14 +177,11 @@ function onResume() {
     }
 }
 
-
-
-/*
 $(document).on('click', '.logout', function () {
     FB.logout();
     return false;
 });
-
+/*
 $(document).on('permissions_revoked', function () {
     // Reset cached views
     fb.myView = null;

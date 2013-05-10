@@ -68,8 +68,9 @@ var MobileApp = function() {
         wel.fbid = fb.fbid;
         var countries = [];
 
-        for (var j = 0; j < this.userCollection.length; j++) {
+        for (var j = 0; j < this.userCollection.length; j++) {           
             var obj = this.userCollection[j];
+            
             wel.totalLikes = wel.totalLikes + obj.likescount;
 
             // create genders array;
@@ -81,7 +82,6 @@ var MobileApp = function() {
             if (obj.likes != undefined | obj.likes == null) {
                 wel.usersWithLikes = (obj.likes.length > 0) ? wel.usersWithLikes + 1 : wel.usersWithLikes + 0;
                 for (var i = 0; i < obj.likes.length; i++) {
-    
                     // create years array;
                     if (this.userCollection[j].likes[i].created_time != undefined) {
                         var year = this.userCollection[j].likes[i].created_time.substr(0, 4);
@@ -93,7 +93,6 @@ var MobileApp = function() {
         wel.country = countries.length;
         return wel;
     }
-
 
     this.getCategories = function() {
 
@@ -114,10 +113,10 @@ var MobileApp = function() {
             if (obj.likes != undefined | obj.likes == null) {
                 for (var i = 0; i < obj.likes.length; i++) {
 
-                    if (this.userCollection[j].likes[i].category.toLowerCase() != "community") {
+                    //if (this.userCollection[j].likes[i].category.toLowerCase() != "community") {
                         this.userCollection[j].likes[i].link = this.userCollection[j].likes[i].category.replace(new RegExp("/", 'g'), "-");
                         this.insertCategory(categories, this.userCollection[j].likes[i].category, males, females);
-                    }
+                    //}
                 };
             }
         };
