@@ -13,6 +13,7 @@ fb.MobileRouter = Backbone.Router.extend({
 
     routes: {
         "": "login",
+        "menu": "menu",
         "welcome": "welcome",
         "categories": "categories",
         "categories/:id": "category",
@@ -26,6 +27,22 @@ fb.MobileRouter = Backbone.Router.extend({
         var view = new fb.views.Login();
         fb.slider.slidePageFrom(view.$el, "left");
     },
+
+    menu: function () {
+        var self = this;
+        if (fb.myMenuView) {
+            fb.slider.slidePage(fb.myMenuView.$el);
+            return;
+        }
+        fb.myMenuView = new fb.views.Menu({ template: fb.templateLoader.get('menu') });
+        var slide = fb.slider.slidePage(fb.myMenuView.$el).done(function () {
+            // fb.spinner.show();
+        });
+        fb.myWelcomeView.render();
+        $('#close-btn').attr("href", '#' + fb.his);
+    },
+
+
     welcome: function () {
         var self = this;
         if (fb.myWelcomeView) {
@@ -97,7 +114,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 $(document).on('ready', function () {
 
-    fb.templateLoader.load(['welcome', 'error', 'categories', 'category', 'like', 'login'], function () {
+    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login'], function () {
         fb.router = new fb.MobileRouter();
         Backbone.history.start();
         FB.init({ appId: "414742111944048", nativeInterface: CDV.FB, useCachedDialogs: false, status: true });
@@ -117,6 +134,12 @@ $(document).on('ready', function () {
             });
         } else {
             fb.user = null; // Reset current FB user
+            fb.fbid = "";
+            fb.name = "";
+            fb.sex = "";
+            fb.fetches = 0;
+            fb.country = "";
+            fb.userCollection = [];
             fb.router.navigate("", {trigger: true});
         }
     });
@@ -152,12 +175,11 @@ function onResume() {
     }
 }
 
-/*
 $(document).on('click', '.logout', function () {
     FB.logout();
     return false;
 });
-
+/*
 $(document).on('permissions_revoked', function () {
     // Reset cached views
     fb.myView = null;

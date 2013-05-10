@@ -7,7 +7,7 @@
 <!--  https://www.google.dk/search?q=kodo+and+podo&aq=0&oq=kodo+and&aqs=chrome.1.57j0l3.10995&sourceid=chrome&ie=UTF-8 -->
     <!-- versionCode is optional and Android only    607816610 appstore id-->
 
-    <name>FatStats</name>
+    <name>CSS CHAMP</name>
 
     <description>
         facebook like stats, by two developers 
@@ -18,6 +18,7 @@
     </author>-->
 
     <!--   PHONEGAP PREFERENCES   e720617c8ef9cb91b2e532646685bac0b8bdecc5  mit serienummer    -->
+    <preference name="phonegap-version" value="2.5.0" />
 
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="handset" />
@@ -29,7 +30,7 @@
     <!--   PHONEGAP FEATURES    -->
 
     <feature name="http://api.phonegap.com/1.0/file"/>
-    <feature name="http://api.phonegap.com/1.0/geolocation"/><!-- kan være den er optional så vi bare spørg brugeren om lov undervejs, comparer chekins med brugers lokation, allestedsnærverende sjo app -->
+    <feature name="http://api.phonegap.com/1.0/geolocation"/><!-- kan være den er optional så vi bare spørg brugeren om lov undervejs, comparer chekins med brugers lokation, allestedsnærverende sjov app -->
     <feature name="http://api.phonegap.com/1.0/media"/>
     <feature name="http://api.phonegap.com/1.0/network"/>
     <feature name="http://api.phonegap.com/1.0/notification"/>

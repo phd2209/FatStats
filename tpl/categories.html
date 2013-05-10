@@ -1,7 +1,6 @@
-<header class="bar-title">
-    <!--<a class="button back" href="#">Back</a>-->
-    <h1 class="title">Categories</h1>
-    <!--<a class="button" href="#menu">Menu</a><span class="chevron"></span>-->
+<header class="bar-title listview">
+    <h1 class="title listview2">Categories</h1>
+     <a class="backbtn" href="#welcome"></a>
 </header>
 
 <div class="content">
@@ -9,10 +8,24 @@
     {{#if .}}
     <ul class="list categories">
         {{#each .}}
-        <li style="clear: both" id="">
+        <li style="clear: both">
             <a href="#categories/{{link}}">
-                {{category}}
-                <span class="numberCircle">{{cnt}}</span>
+            <div>
+                <span class="category-list-name">{{category}}</span>
+                <span class="like-cnt">{{cnt}}<span class="cnt-small"><br>Likes</span></span>
+                
+
+                <div class="gender-section">
+                    <div class="inner male">
+                         <div class="icon-male"></div>
+                        <p class="gender-pct-text">70<span>%</span></p>
+                    </div>
+                    <div class="inner female">
+                        <div class="icon-female"></div>
+                        <p class="gender-pct-text">30<span>%</span></p>
+                    </div>
+                </div>
+            </div>
                 
             </a>
         </li>

@@ -1,18 +1,107 @@
-<header class="bar-title">
-    <a class="button" href="#categories">Start</a>
-    <h1 class="title">Welcome</h1>
-    <a class="button logout" href="#">Logout</a>
+<header class="bar-title welcome">
+    {{#if .}} <h1 class="title welcome">my page</h1>
+   <a class="menu-button" href="#menu"></a>
 </header>
 
-<div class="content">
-    {{#if .}}
-        <br />
-        <p>Name: {{name}}</p><br />
-        <img alt="{{name}}" src="https://graph.facebook.com/{{fbid}}/picture" />
-        <p>total likes: {{totalLikes}}</p><br />
-        <p>users with likes: {{usersWithLikes}}</p><br />
-        <p>Genders: {{genders}}</p><br />
-        <p>Countries: {{country}}</p><br />
-        <p>Years: {{years}}</p>
-    {{/if}}
+<div class="content welcome">
+    <div class="welcome-body">
+      
+            <div class="user-profile">
+              <div class="profile-avatar">
+                <div style="background: url(https://graph.facebook.com/{{ fbid }}/picture?width=60&height=60) no-repeat center center;">
+              </div>
+              </div>
+               <span class="fb-name">{{name}}</span>
+               <div class="liker-graph">
+                  <canvas id="mycanvas" height="170" width="170"></canvas>
+                  
+
+               </div>
+               <div class="stat-divider"></div>
+              
+               <div class="user-stats">
+                  <ul>
+                    <li><span>Venner</span><span>{{friend_count}}</span></li>
+                    <li><span>Dine likes</span><span>{{likescount}}</span></li>
+                    <li><span>Procent af total</span><span>{{yourPercent}}</span></li>
+                  </ul>  
+                 <!-- <div class="fb-stats friends">
+                    <span>Venner</span><span>1222</span>-->
+                </div>
+               <!-- <div class="fb-stats likecnt">
+                    <span>Likes i alt</span><span>1222</span>
+                </div>
+                <div class="fb-stats years">
+                    <span>Aktivitet</span><span>7år</span>
+                </div>-->
+            
+          </div>
+            <a class="measure" href="#categories">
+              <div class="welcome-likes-header">
+                <header>ANTAL LIKES i alt</header>
+                <span>{{thousands}}</span>
+              </div>
+              <span class="num-likes">{{totalLikes}}</span>
+              <div class="stat-icons">
+                <div class="icon-male"></div>
+                <div class="icon-female"></div>
+                <div class="icon-male"></div>
+                <div class="icon-female"></div>
+                <div class="icon-male"></div>
+                <div class="icon-female"></div>
+                <div class="icon-male"></div>
+                <div class="icon-female"></div>
+                <div class="icon-male" ></div>
+                <div class="icon-female"></div>
+                <div class="icon-male"></div>
+                <div class="icon-female"></div>
+                <div class="icon-male"></div>
+                <div class="icon-female"></div>
+              </div>
+          </a>
+         
+           <a class="measure topliker" href="#top">
+            <div class="welcome-likes-header">
+              <header>Mest aktive liker</header>
+              <span>{{toplikerName}}</span>
+            </div>
+              <span class="num-likes">{{topLikerCount}}<span class="likesmall"> likes</span></span>
+              <div class="profile-avatar">
+                <div class="circle" style="background: url(https://graph.facebook.com/{{ topLikerId }}/picture?width=60&height=60) no-repeat center center;">
+              </div>
+             </div>
+              <div class="pct">{{topLikerPercent}}<span class="pctdesc">%</span><span class="total"> af total</span></div>
+          </a>
+           <a class="measure you" href="#categories">
+            <div class="welcome-likes-header">
+              <header>Venner med likes</header>
+              <span>Antal venner med likes</span>
+            </div>
+              <span class="num-likes">{{usersWithLikes}}</span>
+              <div class="outer">
+              <div class="female">
+                  <div class="cnt">{{femalepct}}<span class="pct">%</span></div>
+                 <div class="icon-female"></div>
+              </div>
+            </div>
+            <div class="outer">
+              <div class="male">
+                  <div class="cnt">{{malepct}}<span class="pct">%</span></div>
+                 <div class="icon-male"></div>
+              </div>
+            </div>
+          </a>
+           <a class="measure map" href="#categories">
+            <div class="welcome-likes-header">
+              <header>LANDE</header>
+              <span>Antal lande hvor likes kommer fra</span>
+            </div>
+              <span class="num-likes">{{country}}</span>
+              <div class="world-map"></div>
+          </a>
+            
+        {{/if}}
+
+        
+    </div>
 </div>

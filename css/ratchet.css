@@ -90,11 +90,11 @@ video {
   margin: 0;
   border: 0;
 }
-@font-face
+/*@font-face
 {
 font-family: Open-sans-regular;
 src: url('../fonts/OpenSans-Regular.ttf');
-}
+}*/
 /* Prevents iOS text size adjust after orientation change, without disabling (Thanks to @necolas) */
 html {
   -webkit-text-size-adjust: 100%;
@@ -111,7 +111,12 @@ body {
   bottom: 0;
   left: 0;
   /*font: 14px/1.25 Open-sans-regular, sans-serif;*/
-  font: 14px/1.25 "Helvetica Neue", sans-serif;
+  /*Helvetica-Bold  HelveticaNeue-Bold*/
+  font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue",sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+ /* "HelveticaNeue-CondensedBold", sans-serif;
+  font: 14px/1.25 "Helvetica Neue", sans-serif;*/
   color: #222;
   background-color: #fff;
 }
@@ -219,10 +224,13 @@ a {
   -webkit-box-orient: horizontal;
           box-orient: horizontal;
 
-  background-color: #FFF;
+  /*background-color: #FFF;
   border-bottom-color: #333333; 
   border-bottom-width: 1px; 
-  border-bottom-style: dashed;
+  border-bottom-style: dashed;*/
+  
+  background-color: rgb(44, 43, 44);
+  border-bottom-color: #333333;
 }
 
 /* Centered text in the .bar-title */
@@ -232,10 +240,10 @@ a {
   left: 0;
   display: block;
   width: 100%;
-  font-size: 16px;
+  /*font-size: 16px;*/
   
   line-height: 44px;
-  color: #000;
+  color: #FFF;
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
@@ -343,8 +351,8 @@ a {
 
 /* Override standard button active states */
 .bar-title .button:active {
-  color: #fff;
-  background-color: #0876b1;
+  /*color: #fff;
+  background-color: #0876b1;*/
 }
 
 /* Directional buttons in title bars (thanks to @GregorAdams for solution - http://cssnerd.com/2011/11/30/the-best-pure-css3-ios-style-arrow-back-button/)
@@ -373,7 +381,7 @@ a {
 /* Pointed part of directional button */
 .bar-title .button-prev:before,
 .bar-title .button-next:before {
-  position: absolute;
+ /* position: absolute;
   top: 2px;
   width: 27px;
   height: 27px;
@@ -381,23 +389,23 @@ a {
   content: '';
   box-shadow: inset 1px 0 #0e5895, inset 0 1px #0e5895;
   -webkit-mask-image: -webkit-gradient(linear, left top, right bottom, from(#000), color-stop(.33, #000), color-stop(.5, transparent), to(transparent));
-                  mask-image: gradient(linear, left top, right bottom, from(#000), color-stop(.33, #000), color-stop(.5, transparent), to(transparent));
+                  mask-image: gradient(linear, left top, right bottom, from(#000), color-stop(.33, #000), color-stop(.5, transparent), to(transparent));*/
 }
 .bar-title .button-prev:before {
-  left: -5px;
+  /*left: -5px;
   background-image: -webkit-gradient(linear, left bottom, right top, from(#0984c6), to(#1eb0e9));
   background-image: gradient(linear, left bottom, right top, from(#0984c6), to(#1eb0e9));
   border-left: 1.5px solid rgba(255, 255, 255, .25);
   -webkit-transform: rotate(-45deg) skew(-10deg, -10deg);
-          transform: rotate(-45deg) skew(-10deg, -10deg);
+          transform: rotate(-45deg) skew(-10deg, -10deg);*/
 }
 .bar-title .button-next:before {
-  right: -5px;
+  /*right: -5px;
   background-image: -webkit-gradient(linear, left bottom, right top, from(#1eb0e9), to(#0984c6));
   background-image: gradient(linear, left bottom, right top, from(#1eb0e9), to(#0984c6));
   border-top: 1.5px solid rgba(255, 255, 255, .25);
   -webkit-transform: rotate(135deg) skew(-10deg, -10deg);
-          transform: rotate(135deg) skew(-10deg, -10deg);
+          transform: rotate(135deg) skew(-10deg, -10deg);*/
 }
 
 /* Active states for the directional buttons */
@@ -405,19 +413,19 @@ a {
 .bar-title .button-next:active,
 .bar-title .button-prev:active:before,
 .bar-title .button-next:active:before {
-  color: #fff;
+  /*color: #fff;
   background-color: #0876b1;
-  background-image: none;
+  background-image: none;*/
 }
 .bar-title .button-prev:active:before,
 .bar-title .button-next:active:before {
   content: '';
 }
 .bar-title .button-prev:active:before {
-  box-shadow: inset 0 3px 3px rgba(0, 0, 0, .2);
+  /*box-shadow: inset 0 3px 3px rgba(0, 0, 0, .2);*/
 }
 .bar-title .button-next:active:before {
-  box-shadow: inset 0 -3px 3px rgba(0, 0, 0, .2);
+  /*box-shadow: inset 0 -3px 3px rgba(0, 0, 0, .2);*/
 }
 
 /* Block buttons in any bar
@@ -432,7 +440,7 @@ a {
 
 /* Override standard padding changes for .button-blocks */
 [class*="bar"] .button-block:active {
-  padding: 7px 0;
+  /*padding: 7px 0;*/
 }
 
 /* Segmented controller in any bar
@@ -514,7 +522,10 @@ a {
 /* Pad each list item and add dividers */
 .list li {
   position: relative;
-  padding: 20px 60px 20px 10px; /* Given extra right padding to accomodate counts, chevrons or buttons */
+  /*padding: 20px 60px 20px 10px; */
+  
+  padding: 22px 20px 26px 10px;/*tweenman fix looking good*/
+  /* Given extra right padding to accomodate counts, chevrons or buttons */
   /*border-bottom: 1px solid rgba(0, 0, 0, .1);*/
 }
 
@@ -531,6 +542,9 @@ a {
   margin: -20px -60px -20px -10px;
   color: inherit;
 }
+.list.categories{
+  overflow: hidden;
+}
 .list.categories li { background: rgb(250, 250, 250)!important; }
 
 .list.categories li:nth-child(odd) { background: #fff!important; }
@@ -539,25 +553,11 @@ a {
   /*padding: 30px!important;
   padding-left: 8px;
   font-size: 24px!important;*/
+  overflow: hidden;
   padding: 25px!important;
   padding-left: 8px!important;
   font-size: 12px!important;
 
-}
-.list.categories li span {
-  position: absolute;
- 
-top: 18px;
-right: 8px;
-border-radius: 90px;
-width: 25px;
-height: 25px;
-text-align: center;
-line-height: 25px;
-background: #000;
-color: white;
-padding: 3px 3px !important;
-font-size: 12px;
 }
 
 /* Inset list

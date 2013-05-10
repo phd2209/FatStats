@@ -13,6 +13,7 @@ fb.MobileRouter = Backbone.Router.extend({
 
     routes: {
         "": "login",
+        "menu": "menu",
         "welcome": "welcome",
         "categories": "categories",
         "categories/:id": "category",
@@ -26,6 +27,22 @@ fb.MobileRouter = Backbone.Router.extend({
         var view = new fb.views.Login();
         fb.slider.slidePageFrom(view.$el, "left");
     },
+
+    menu: function () {
+        var self = this;
+        if (fb.myMenuView) {
+            fb.slider.slidePage(fb.myMenuView.$el);
+            return;
+        }
+        fb.myMenuView = new fb.views.Menu({ template: fb.templateLoader.get('menu') });
+        var slide = fb.slider.slidePage(fb.myMenuView.$el).done(function () {
+            // fb.spinner.show();
+        });
+        fb.myWelcomeView.render();
+        $('#close-btn').attr("href", '#' + fb.his);
+    },
+
+
     welcome: function () {
         var self = this;
         if (fb.myWelcomeView) {
@@ -143,7 +160,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 $(document).on('ready', function () {
 
-    fb.templateLoader.load(['welcome', 'error', 'categories', 'category', 'like', 'login'], function () {
+    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login'], function () {
         fb.router = new fb.MobileRouter();
         Backbone.history.start();
     });

@@ -51,7 +51,21 @@ var MobileApp = function() {
         }
     };
 
-
+    this.getMenuButtons = function () {
+        var Options = function () {
+            this.totalLikes = 0;
+            this.usersWithLikes = 0;
+            this.country = 0;
+            this.genders = [];
+            this.years = [];
+            this.fbid = 0;
+            this.name = "";
+            this.thousands = "Målt i antal tusinder";
+        };
+        var opt = new Options();
+        return opt;
+    };
+    /*
     this.getWelcomeMessage = function() {
 
         var Welcome = function () {
@@ -92,7 +106,139 @@ var MobileApp = function() {
         };
         wel.country = countries.length;
         return wel;
-    }
+    };
+    */
+
+    this.getWelcomeMessage = function () {
+
+        var Welcome = function () {
+            this.totalLikes = 0;
+            this.usersWithLikes = 0;
+            this.malepct = 0;
+            this.femalepct = 0;
+            this.toplikerName = "";
+            this.topLikerId = "";
+            this.topLikerCount = 0;
+            this.topLikerPercent = 0;
+            this.country = 0;
+            this.genders = [];
+            this.years = [];
+            this.fbid = 0;
+            this.name = "";
+            this.yourPercent = 0;
+            this.likescount = 0;
+            this.friend_count;
+            this.avflikecount = 0;
+            this.thousands = "Målt i antal tusinder";
+        };
+        var wel = new Welcome();
+        var countries = [];
+        wel.name = fb.name;
+        var topLiker = { 'likescount': 0 };
+        //var yourLikeCount = 0;
+        var hasMatch = false;
+        var userCats = [];
+        //var girls = 0;
+        wel.friend_count = this.userCollection.length;
+        for (var j = 0; j < this.userCollection.length; j++) {
+            var obj = this.userCollection[j];
+
+            if (obj.likescount != null || obj.likescount != undefined) {
+                wel.totalLikes += obj.likescount;
+
+            }
+            topLiker = (obj.likescount > topLiker.likescount) ? obj : topLiker;
+
+            if (obj.name === fb.name && !hasMatch) {
+                hasMatch = true;
+                userCats = obj.likes;
+                wel.likescount = obj.likescount;
+            }
+
+
+            //if (!_.contains(wel.genders, obj.sex) && obj.sex != undefined) wel.genders.push(obj.sex);
+
+            // create country array;
+            if (!_.contains(countries, obj.country) && obj.country != undefined) countries.push(obj.country);
+            //console.log(obj.likes )
+            if (obj.likes != undefined || obj.likes != null) {
+                //console.log(obj.likes )
+                wel.usersWithLikes = (obj.likes.length > 0) ? wel.usersWithLikes + 1 : wel.usersWithLikes + 0;
+                for (var i = 0; i < obj.likes.length; i++) {
+
+                    // create years array;
+                    if (this.userCollection[j].likes[i].created_time != undefined) {
+                        var year = this.userCollection[j].likes[i].created_time.substr(0, 4);
+                        if (!_.contains(wel.years, year) && year != undefined) wel.years.push(year);
+                    }
+                };
+            }
+        };
+        var females = _.where(this.userCollection, { sex: "female" });
+        var femeCnt = 0;
+        for (var i = 0; i < females.length; i++) {
+            if (females[i].likes.length > 0) femeCnt++;
+        };
+        wel.femalepct = Math.round((femeCnt / wel.usersWithLikes) * 100);
+        wel.malepct = 100 - wel.femalepct;
+
+        var userCategories = [];
+        wel.likescount = 0;
+        for (var i = 0; i < userCats.length; i++) {
+            //if(userCats[i].category != "Community") {
+            this.insertCategory(userCategories, userCats[i].category);
+            wel.likescount++;
+            //}
+
+        };
+        //console.log("wel.likescount with no community " + wel.likescount);
+        this.sortByNum(userCategories);
+        //70 kategorier
+        console.dir(userCategories)
+        var topcategorieesforuser; //hvis mindre end 9 så vis dem, ellers 9 + resten
+        var loopcount = Math.min(userCategories.length, 8);
+        var donutColors = ["#660066", "#990099", "#476aa4", "#cc00cc", "#d9c3e9", "#55c6e4", "#55c6ec", "#55ccc", "#ccc"];
+        //console.log("loopcount " + loopcount) 
+        wel.donutObj = [];
+        for (var i = 0; i < loopcount; i++) {
+            var obj;
+            if (i == loopcount) {
+
+                var max = 0;
+                for (var j = loopcount; j < userCategories.length; j++) {
+                    max += userCategories[j].cnt;
+                };
+                obj = { value: Math.round(360 * (max / wel.likescount)), color: donutColors[i] };
+
+                //break;
+            }
+            else {
+                //console.log("userCategories[i].cnt " + userCategories[i].cnt)
+                obj = { value: Math.round(360 * (userCategories[i].cnt / wel.likescount)), color: donutColors[i] };
+
+            }
+            wel.donutObj.push(obj);
+
+            /* userCategories[i]*/
+        };
+        console.dir(wel.donutObj);
+
+        wel.yourPercent = Math.round(wel.likescount / wel.totalLikes * 100);
+        wel.toplikerName = topLiker.name;
+        wel.topLikerId = topLiker.id;
+        wel.topLikerCount = this.thousandSeparator(topLiker.likescount, '.');
+        wel.topLikerPercent = Math.round(topLiker.likescount / wel.totalLikes * 100);
+        wel.avflikecount = Math.round(wel.totalLikes / this.userCollection.length);
+
+        if (wel.totalLikes < 1000) wel.thousands = "Fordelt på dine venner";
+        wel.country = countries.length;
+        wel.fbid = fb.fbid;// "1395743517";//fb.fbid;
+        wel.totalLikes = this.thousandSeparator(wel.totalLikes, '.').substr(0, 4);// "12.3";
+        //wel.name = fb.name;//fb.user.data[0].name;
+        //console.log(this.thousandSeparator('20002003', '.'))
+        return wel;
+    };
+
 
     this.getCategories = function() {
 
@@ -197,6 +343,17 @@ var MobileApp = function() {
             list[h].pct = Math.round(list[h].cnt / total * 100);
         }
     }
+
+    this.thousandSeparator = function (n, sep) {
+        var sRegExp = new RegExp('(-?[0-9]+)([0-9]{3})'),
+        sValue = n + '';
+        if (sep === undefined) { sep = ','; }
+        while (sRegExp.test(sValue)) {
+            sValue = sValue.replace(sRegExp, '$1' + sep + '$2');
+        }
+        return sValue;
+    };
+
 
     this.sortByNum = function (list) {
         list.sort(function (b, a) {
