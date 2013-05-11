@@ -176,7 +176,7 @@ $(document).on('click', '.button.back', function() {
 $(document).on('login', function () {
     FB.login(function(response) {
         console.log("Logged In");
-    }, { scope: 'publish_actions,user_likes,friends_likes' });
+    }, { scope: 'user_likes,friends_likes' });
     return false;
 });
 
