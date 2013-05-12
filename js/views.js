@@ -135,6 +135,19 @@ fb.views.Toplikes = Backbone.View.extend({
 
 });
 
+fb.views.TopPhotos = Backbone.View.extend({
+
+    initialize: function () {
+        this.render();
+    },
+
+    render: function () {
+        this.$el.html(this.options.template(this.model));
+        return this;
+    }
+
+});
+
 fb.views.Error = Backbone.View.extend({
 
     initialize: function () {

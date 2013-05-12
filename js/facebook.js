@@ -72,5 +72,31 @@ fbWrapper = {
             batchdef.fail();
         }
         return batchdef;
+    },
+    photo: function (num) {
+        var photos = [];
+        var photodef = $.Deferred();
+        try {
+            console.log('calling fb api in batch'+num);
+            FB.api('/fql', { 'q': ' SELECT pid, like_info, object_id, caption, aid, owner, link, src_big, src_small, created, modified FROM photo WHERE aid IN (SELECT aid FROM album WHERE owner IN (SELECT uid2 FROM friend WHERE uid1=me())) ORDER BY like_info desc LIMIT 15' }, function (resp) {
+
+                // check for a valid response
+                if (resp == "undefined" || resp == null || !resp || resp.error) {
+                    photodef.fail();
+                }
+
+                for (var i = 0; i < resp.data.length; i++) {
+                    //console.log(resp.data[i]);
+                    var obj = resp.data[i];
+                    obj = { "id": obj.pid, "like_info": obj.like_info, "caption": obj.caption, "owner": obj.owner, "bigpic": obj.src_big, "smallpic": obj.src_small };
+                    photos.push(obj);
+                }
+                console.log(photos);
+                photodef.resolve(photos)
+            });
+        } catch (e) {
+            photodef.fail();
+        }
+        return photodef;
     }
 }

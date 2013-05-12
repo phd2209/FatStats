@@ -19,7 +19,8 @@ fb.MobileRouter = Backbone.Router.extend({
         "toplikes": "toplikes",
         "categories": "categories",
         "categories/:id": "category",
-        "likes/:id": "like"
+        "likes/:id": "like",
+        "photos": "photos"
     },
 
     login: function () {
@@ -130,13 +131,34 @@ fb.MobileRouter = Backbone.Router.extend({
             .always(function () {
                 fb.spinner.hide();
             });
+    },
+    photos: function () {
+        var self = this;
+        console.log("Entered Photos");
+        var view = new fb.views.TopPhotos({ template: fb.templateLoader.get('topphotos') });
+        fb.slider.slidePage(view.$el);
+        fb.spinner.show();
+        var call = fbWrapper.photo(fb.fetches);
+        $.when(call)
+            .done(function (callResp) {
+                fb.spinner.hide();
+                view.model = callResp;
+                view.render();
+            })
+            .fail(function () {
+                fb.spinner.hide();
+                self.showErrorPage();
+            })
+            .always(function () {
+                fb.spinner.hide();
+            });
     }
 });
 document.addEventListener("deviceready", onDeviceReady, false);
 
 $(document).on('ready', function () {
 
-    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login', 'toplikers', 'toplikes'], function () {
+    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login', 'toplikers', 'toplikes', 'topphotos'], function () {
         fb.router = new fb.MobileRouter();
         Backbone.history.start();
         FB.init({ appId: "414742111944048", nativeInterface: CDV.FB, useCachedDialogs: false, status: true });
