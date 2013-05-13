@@ -198,7 +198,7 @@ $(document).on('click', '.button.back', function() {
 $(document).on('login', function () {
     FB.login(function(response) {
         console.log("Logged In");
-    }, { scope: 'user_likes,friends_likes' });
+    }, { scope: 'user_likes,friends_likes,user_photos,friends_photos' });
     return false;
 });
 

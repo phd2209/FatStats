@@ -99,4 +99,55 @@ fbWrapper = {
         }
         return photodef;
     }
+    /*photo: function (num) {
+        var photodef = $.Deferred();
+        try {
+            console.log('calling fb api in batch' + num);
+            for (i = 0; i <= num ; i++) {
+                FB.api('/', 'POST', {
+                    batch: [
+                        { method: 'GET', name: 'get-likes', "omit_response_on_success": false, relative_url: 'me/photos/likes' },
+                        { method: 'GET', name: 'get-friends', "omit_response_on_success": false, relative_url: 'me/friends?fields=id&limit=50&offset=' + i * 50 },
+                        { method: 'GET', "omit_response_on_success": false, relative_url: 'photos/likes?ids={result=get-friends:$.data.*.id}' }
+                    ]
+                }, function (response) {
+
+                    //console.log(response);
+                    //Count down fetches
+                    fb.fetches--;
+
+                    var body = JSON.parse(response[0].body);
+                    console.log(body);
+                    //var body1 = JSON.parse(response[1].body);
+                    //console.log(body1);
+
+                    $.each(body.data, function (i, user) {
+                        var fbuser = new Object();
+                        fbuser.id = user.id;
+                        fbuser.name = user.name;
+                        fbuser.country = user.locale;
+                        fbuser.sex = user.gender;
+                        fb.userCollection.push(fbuser);
+                    });
+
+                    var body2 = JSON.parse(response[2].body);
+                    console.log(body2);
+                    
+                    $.each(body, function (id, user) {
+                        for (var i = 0; i < fb.userCollection.length; i++) {
+                            if (id === fb.userCollection[i].id) {
+                                fb.userCollection[i].likes = user.data;
+                                fb.userCollection[i].likescount = user.data.length;
+                                break;
+                            }
+                        }
+                    });
+                    if (fb.fetches === 0) { photodef.resolve(response) };
+                });
+            }
+        } catch (e) {
+            photodef.fail();
+        }
+        return photodef;
+    },*/
 }
