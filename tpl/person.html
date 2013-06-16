@@ -1,0 +1,48 @@
+<header class="bar-title listview">
+    <h1 class="title">Profile</h1>
+    <a class="backbtn" id="backbtn" href="#welcome"></a>
+</header>
+<div class="content">
+{{#if .}}
+    {{#if winner}}
+      <div class="winner-cup"></div>
+      <div class="ranking-container person">
+            <div class="ranking-number person">{{num}}<span>{{rank}}</span></div>
+        </div>
+      {{else}}
+       <div class="ranking-container person">
+            <div class="ranking-number person huge">{{num}}<span>{{rank}}</span></div>
+        </div>
+       {{/if}}
+        
+    
+    <div class="avatar-wrapper">
+        <div class="profile-avatar person">
+            <div class="circle-person" style="background: url(https://graph.facebook.com/{{ id }}/picture?width=150&height=150) no-repeat center center;"></div>
+        </div>
+    </div>
+    <div class="big-header">
+        {{ name }}<br/>
+         <span>Antal venner {{friend_count}}</span>
+    </div>
+    
+    <div class="profile-stats">
+        <div class="inner">
+          <span class="fav"><div class="fav-text">{{favorite}}</div></span>
+          <div class="icon"></div>
+           <span class="bottom-desc">favorit kategori</span>
+        </div>
+    </div>
+    <div class="profile-stats likes">
+        <div class="inner">
+           <div class="icon"></div>
+           <div>
+            <div class="num-friends">{{likescount}}</div>
+           </div> 
+           <span class="bottom-desc">Antal likes</span>
+        </div>
+    </div>
+    <br/>
+   
+{{/if}}
+</div>

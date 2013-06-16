@@ -78,7 +78,7 @@ fb.MobileRouter = Backbone.Router.extend({
         var self = this;
         var view = new fb.views.Toplikers({ template: fb.templateLoader.get('toplikers') });
         fb.slider.slidePage(view.$el);
-        view.model = fb.getUsersWithMostLikes();
+        view.model = fb.getUsersWithMostLikes('all');
         view.render();
     },
 

@@ -4,24 +4,39 @@
 </header>
 
 <div class="content">
-    
-    {{#if .}}
+    <button id="all">All</button>
+    <button id="week">Weekly</button>
+    <button id="month">Monthly</button>
+
+   {{#if .}}
     <ul class="list categories">
         {{#each .}}
-        <li style="clear: both">
-           <a class="measure topliker" href="#top">
-            <div class="welcome-likes-header">
-              <span>{{name}}</span>
-            </div>
-              <span class="num-likes">{{likescount}}<span class="likesmall"> likes</span></span>
-              <div class="profile-avatar">
-                <div class="circle" style="background: url(https://graph.facebook.com/{{ id }}/picture?width=60&height=60) no-repeat center center;">
+        {{#if active}}
+          <li style="clear: both" class="user-selected">
+          {{else}}
+            <li style="clear: both">
+          {{/if}}
+       
+           <a href="#person/{{ id }}">
+            <div>
+                <span class="topliker-listName">{{name}}</span>
+                <span class="like-cnt likers">{{likescount}}<span class="cnt-small"><br>Likes</span></span>
+
+                <div class="profile-avatar top">
+                    <div class="circle" style="background: url(https://graph.facebook.com/{{ id }}/picture?width=50&height=50) no-repeat center center !important;">
               </div>
-             </div>
-              <div class="pct">{{likespct}}<span class="pctdesc">%</span><span class="total"> af total</span></div>
-          </a>
+
+               </div>
+               <div class="ranking-container">
+               <div class="ranking-number">{{pos}}<span>{{niceNum}}</span></div>
+                </div>
+               <div class="likers pct">{{likespct}}<span class="pctdesc"> %</span><span class="total"> af total</span></div>
+            </div>
+            </a>
+
         </li>
         {{/each}}
     </ul>
     {{/if}}
+
 </div>

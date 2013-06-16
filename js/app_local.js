@@ -2,6 +2,11 @@ window.addEventListener('load', function () {
     new FastClick(document.body);
 }, false);
 
+//window.addEventListener('BatchLoad', function () {
+//    console.log("new batch loaded");
+//}, false);
+
+
 var fb = new MobileApp();
 fb.his;
 fb.spinner = $("#spinner");
@@ -18,6 +23,7 @@ fb.MobileRouter = Backbone.Router.extend({
         "toplikers": "toplikers",
         "toplikes": "toplikes",
         "categories": "categories",
+        "person/:id": "person",
         "categories/:id": "category",
         "likes/:id": "like",
         "photos": "photos"
@@ -45,7 +51,6 @@ fb.MobileRouter = Backbone.Router.extend({
         $('#close-btn').attr("href", '#' + fb.his);
     },
 
-
     welcome: function () {
         fb.his = Backbone.history.fragment;
         var self = this;
@@ -57,11 +62,21 @@ fb.MobileRouter = Backbone.Router.extend({
         var slide = fb.slider.slidePage(fb.myWelcomeView.$el).done(function () {
             fb.spinner.show();
         });
-        var call1 = fbWrapper.batch(fb.fetches);
+
+        var call1 = DataService.getUserCollection(fb.myuser.fetches, false);
 
         $.when(slide, call1)
             .done(function (slideResp, callResp) {
-                fb.myWelcomeView.model = fb.getWelcomeMessage();
+
+                //var test1 = DataService.getTopLikersCollection(fb.userCollection, 'ALL');
+                //var test2 = DataService.getTopLikersCollection(fb.userCollection, 'WEEK');
+                //var test3 = DataService.getTopLikersCollection(fb.userCollection, 'MONTH');
+
+                //var test4 = DataService.getTopLikesCollection(fb.userCollection, 'ALL');
+                //var test5 = DataService.getTopLikesCollection(fb.userCollection, 'MALE');
+                //var test6 = DataService.getTopLikesCollection(fb.userCollection, 'FEMALE');
+
+                fb.myWelcomeView.model = DataService.getWelcomeModel(fb.userCollection);
                 fb.myWelcomeView.render();
             })
             .fail(function () {
@@ -70,7 +85,6 @@ fb.MobileRouter = Backbone.Router.extend({
             .always(function () {
                 fb.spinner.hide();
             });
-
     },
 
     toplikers: function () {
@@ -78,7 +92,7 @@ fb.MobileRouter = Backbone.Router.extend({
         var self = this;
         var view = new fb.views.Toplikers({ template: fb.templateLoader.get('toplikers') }); 
         fb.slider.slidePage(view.$el);
-        view.model = fb.getUsersWithMostLikes();
+        view.model = DataService.getTopLikersCollection(fb.userCollection, 'ALL');
         view.render();
     },
 
@@ -87,7 +101,7 @@ fb.MobileRouter = Backbone.Router.extend({
         var self = this;
         var view = new fb.views.Toplikes({ template: fb.templateLoader.get('toplikes') });
         fb.slider.slidePage(view.$el);
-        view.model = fb.getTopLikes();
+        view.model = DataService.getTopLikesCollection(fb.userCollection, 'ALL');
         view.render();
     },
 
@@ -132,6 +146,16 @@ fb.MobileRouter = Backbone.Router.extend({
                 fb.spinner.hide();
             });
     },
+    person: function (id) {
+        var self = this;
+        var view = new fb.views.Person({ template: fb.templateLoader.get('person') });
+        var slide = fb.slider.slidePage(view.$el).done(function () {
+            fb.spinner.show();
+        });
+        view.model = DataService.getPersonLikesById(fb.userCollection, id);
+        view.render();
+    },
+
     photos: function () {
         var self = this;
         console.log("Entered Photos");
@@ -170,17 +194,21 @@ window.fbAsyncInit = function () {
     FB.Event.subscribe('auth.statusChange', function(event) {
         if (event.status === 'connected') {
             FB.api('/fql', { 'q': 'SELECT uid, name, sex, locale, friend_count FROM user WHERE uid = me()' }, function (response) {
-                fb.user = response; 
-                fb.fbid = response.data[0].uid;
-                fb.name = response.data[0].name;
-                fb.sex = response.data[0].sex;
-                fb.fetches = Math.ceil(response.data[0].friend_count / 50);
-                fb.country = response.data[0].locale;
-                fb.slider.removeCurrentPage();
-                fb.router.navigate("welcome", { trigger: true });
+
+                fb.myuser = new Object({ id: response.data[0].uid.toString(), name: response.data[0].name, gender: response.data[0].sex, locale: response.data[0].locale, friend_count: response.data[0].friend_count });
+                fb.myuser.fetches = Math.ceil(response.data[0].friend_count / 50);
+                fb.myuser.fetch_time = Math.round(new Date().getTime() / 1000);
+
+                FB.api('me/likes', function (resp) {
+                    fb.myuser.likes = resp.data;
+                    fb.myuser.likescount = resp.data.length;
+                    fb.userCollection.push(fb.myuser);
+                    fb.slider.removeCurrentPage();
+                    fb.router.navigate("welcome", { trigger: true });
+                });
             });
         } else {
-            fb.user = null; // Reset current FB user
+            fb.myuser = null; // Reset current FB user
             fb.fbid = "";
             fb.name = "";
             fb.sex = "";
@@ -204,7 +232,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 $(document).on('ready', function () {
 
-    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login', 'toplikers', 'toplikes', 'topphotos'], function () {
+    fb.templateLoader.load(['welcome', 'menu', 'error', 'categories', 'category', 'like', 'login', 'toplikers', 'toplikes', 'topphotos', 'person'], function () {
         fb.router = new fb.MobileRouter();
         Backbone.history.start();
     });

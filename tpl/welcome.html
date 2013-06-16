@@ -5,36 +5,30 @@
 
 <div class="content welcome">
     <div class="welcome-body">
-      
-            <div class="user-profile">
+                  <div class="user-profile" id="mylink">
               <div class="profile-avatar">
-                <div style="background: url(https://graph.facebook.com/{{ fbid }}/picture?width=60&height=60) no-repeat center center;">
-              </div>
-              </div>
-               <span class="fb-name">{{name}}</span>
-               <div class="liker-graph">
-                  <canvas id="mycanvas" height="170" width="170"></canvas>
-                  
-
-               </div>
-               <div class="stat-divider"></div>
-              
-               <div class="user-stats">
-                  <ul>
-                    <li><span>Venner</span><span>{{friend_count}}</span></li>
-                    <li><span>Dine likes</span><span>{{likescount}}</span></li>
-                    <li><span>Procent af total</span><span>{{yourPercent}}</span></li>
-                  </ul>  
-                 <!-- <div class="fb-stats friends">
-                    <span>Venner</span><span>1222</span>-->
+                <div style="background: url(https://graph.facebook.com/{{ loggedinUser.id }}/picture?width=60&height=60) no-repeat center center;">
                 </div>
-               <!-- <div class="fb-stats likecnt">
-                    <span>Likes i alt</span><span>1222</span>
-                </div>
-                <div class="fb-stats years">
-                    <span>Aktivitet</span><span>7år</span>
-                </div>-->
-            
+              </div>
+              <span class="fb-name">{{loggedinUser.name}}</span>
+              <span class="rank">Antal venner {{loggedinUser.friend_count}}</span>
+             
+              <a class="top-box center" id="topLinkMe" href="#person/{{ loggedinUser.id  }}">
+                  <div class="inner">
+                      <span class="fav"><div class="fav-text">{{loggedinUser.favorite}}</div></span>
+                      <div class="icon"></div>
+                       <span class="bottom-desc">favorit kategori</span>
+                  </div>
+              </a>
+              <a class="top-box right" href="#person/{{ loggedinUser.id }}">
+                   <div class="inner">
+                   <div class="icon"></div>
+                   <div>
+                    <div class="num-friends">{{loggedinUser.likescount}}</div>
+                   </div> 
+                   <span class="bottom-desc">Dine likes</span>
+                 </div>
+              </a>
           </div>
             <a class="measure" href="#toplikes">
               <div class="welcome-likes-header">
@@ -59,20 +53,8 @@
                 <div class="icon-female"></div>
               </div>
           </a>
-         
-           <a class="measure topliker" href="#toplikers">
-            <div class="welcome-likes-header">
-              <header>Mest aktive liker</header>
-              <span>{{toplikerName}}</span>
-            </div>
-              <span class="num-likes">{{topLikerCount}}<span class="likesmall"> likes</span></span>
-              <div class="profile-avatar">
-                <div class="circle" style="background: url(https://graph.facebook.com/{{ topLikerId }}/picture?width=60&height=60) no-repeat center center;">
-              </div>
-             </div>
-              <div class="pct">{{topLikerPercent}}<span class="pctdesc">%</span><span class="total"> af total</span></div>
-          </a>
-           <a class="measure you" href="#categories">
+
+         <a class="measure you" href="#toplikers">
             <div class="welcome-likes-header">
               <header>Venner med likes</header>
               <span>Antal venner med likes</span>
@@ -91,17 +73,28 @@
               </div>
             </div>
           </a>
-           <a class="measure map" href="#categories">
+
+           <a class="measure topliker" href="#toplikers">
+            <div class="welcome-likes-header">
+              <header>Mest aktive liker</header>
+              <span>{{topLiker.name}}</span>
+            </div>
+              <span class="num-likes">{{topLiker.likescount}}<span class="likesmall"> likes</span></span>
+              <div class="profile-avatar">
+                <div class="circle" style="background: url(https://graph.facebook.com/{{ topLiker.id }}/picture?width=60&height=60) no-repeat center center;">
+              </div>
+             </div>
+              <div class="pct">{{topLiker.percent}}<span class="pctdesc">%</span><span class="total"> af total</span></div>
+          </a>
+           
+           <!--<a class="measure map" href="#categories">
             <div class="welcome-likes-header">
               <header>LANDE</header>
               <span>Antal lande hvor likes kommer fra</span>
             </div>
               <span class="num-likes">{{country}}</span>
               <div class="world-map"></div>
-          </a>
-            
-        {{/if}}
-
-        
+          </a>-->            
+        {{/if}}        
     </div>
 </div>

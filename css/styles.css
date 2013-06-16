@@ -75,24 +75,186 @@ img.avatar {
     position: relative;
     background-color: #dad9d9;
     padding: 25px 0 60px 26px;
-    height: 139px;
+    height: 59px;
     overflow: hidden;
 }
-.content.welcome .user-profile .fb-name{
-   font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: black;
+.content.welcome .user-profile .num-friends{
     position: absolute;
-    left: 79px;
-    top: 6px;
-    padding: 4px;
+    right: 9px;
+    top: -6px;
+    font-size: 41px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    color: black;
 }
-.content.welcome .user-profile .profile-avatar {
+.content.welcome .user-profile .num-friends span{
+    color:#6b0a6f;
+    font-size: 12px;
+margin-left: 2px;
+}
+.content.welcome .user-profile .fb-name{
+   font-size: 15px;
+font-weight: bold;
+text-transform: uppercase;
+color: #6b0a6f;
+position: absolute;
+left: 68px;
+top: 9px;
+padding: 3px;
+}
+.content.welcome .user-profile .top-box{
+    position: absolute;
+    top: 79px;
+    /*display: block;*/
+    width: 106px;
+    height: 65px;
+    background-color: #ccc;
+    overflow: hidden;
+    color:black;
+}
+.content.welcome .user-profile .top-box .inner{
+    position: relative;
+}
+.content.welcome .user-profile .top-box .fav{
+
+position: absolute;
+top: 7px;
+left: 4px;
+
+}
+.content.welcome .user-profile .top-box .fav .fav-text{
+   height: 32px;
+    
+    font-size: 16px;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 153px;
+    overflow: hidden;
+
+}
+.content.welcome .user-profile .top-box.left{
+    left: 0px;
+    width: 107px;
+    background-color: #ededed;
+}
+.content.welcome .user-profile .top-box .bottom-desc{
+    position: absolute;
+text-align: right;
+top: 50px;
+right: 10px;
+text-transform: uppercase;
+font-size: 10px;
+}
+.content.welcome .user-profile .top-box.center{
+    
+    width: 160px;
+    left: 0px;
+    background-color: #fff;/*rgb(250, 248, 248);*/
+
+}
+.content.welcome .user-profile .top-box.right{
+    left: 160px;
+    width: 160px;
+    background-color: rgb(228, 228, 228);
+}
+.content.welcome .user-profile .top-box.left .icon{
+    width: 38px;
+    height: 38px;
+    background: url(../img/user-friends.png) no-repeat!important;
+    position: absolute;
+    left: -7px;
+    top: 35px;
+    -webkit-transform: scale(0.5)translate(0px, 0px);
+}
+.content.welcome .user-profile .top-box.center .icon{
+    width: 38px;
+    height: 38px;
+    background: url(../img/user-fav.png) no-repeat!important;
+    position: absolute;
+    left: -7px;
+    top: 35px;
+    -webkit-transform: scale(0.5)translate(0px, 0px);
+}
+.content.welcome .user-profile .top-box.right .icon{
+    width: 38px;
+    height: 38px;
+    background: url(../img/user-like.png) no-repeat!important;
+    position: absolute;
+    left: -7px;
+    top: 35px;
+    -webkit-transform: scale(0.5)translate(0px, 0px);
+}
+.content.welcome .user-profile  .user-likes{
+
+}
+.content.welcome .user-profile .rank{
+    position: relative;
+    left: 45px;
+    font-size: 20px;
+    top: 0px;
+    text-transform: uppercase;
+}
+.content.welcome .user-profile .fav-category{
+    position: absolute;
+    left: 108px;
+    top: 50px;
+    text-align: center;
+    width: 200px;
     margin: 20px;
     position: relative;
     top: 5px;
     left: 3px;
+}
+.content.welcome .user-profile .fav-category .top{
+    font-size: 12px;
+}
+.content.welcome .user-profile .fav-category .bottom{
+    font-size: 18px;
+}
+.topliker-listName{
+    text-transform: uppercase;
+    font-size: 15px!important;
+    top: 9px;
+    left: 69px;
+    position: absolute;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 32px;
+    width: 190px;
+    z-index: 2;
+}
+
+.user-selected {
+   color: rgb(212, 241, 0)!important;
+}
+.user-selected .like-cnt.likers .cnt-small{
+   color: black!important;
+}
+.user-selected .total{
+   color: black!important;
+}
+.rank-container{
+  
+}
+.ranking-number{
+   position: relative;
+width: 50px;
+text-align: center;
+color: #fff;
+font-size: 19px!important;
+font-weight: normal!important;
+top: -9px;
+}
+.ranking-number span{
+    font-size: 8px;
+}
+.content.welcome .user-profile .profile-avatar{
+    position: absolute;
+    top: 50px;
+    left: 46px;
 }
 .content.welcome .user-profile .profile-avatar span{
     width: 90px;
@@ -105,9 +267,34 @@ img.avatar {
     position: absolute;
     background-color: rgb(68, 64, 64);
 }
+.profile-avatar.top {
+    margin: 20px;
+position: relative;
+top: 2px;
+left: 20px;
+}
+.profile-avatar.top span{
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 48px;
+    border-radius: 50px;
+    opacity: 0.8;
+    margin: -45px 0 0 -45px;
+    background-size: 22px 32px;
+    position: absolute;
+    background-color: rgb(68, 64, 64);
+}
+.profile-avatar.top div{
+    width: 50px;
+    height: 50px;
+    margin: -40px 0 0 -40px;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+    position: absolute;
+}
 .content.welcome .user-profile .profile-avatar div{
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     /*background-size: 120% 120%;*/
     margin: -40px 0 0 -40px;
    /* -moz-border-radius: 45px;*/
@@ -116,9 +303,7 @@ img.avatar {
     position: absolute;
 }
 .content.welcome .user-profile .liker-graph{
-   /*width: 79px;
-    height: 83px;
-    background: url(../img/circ.jpg) no-repeat!important;*/
+   
     position: relative;
     left: 133px;
     top: -19px;
@@ -213,7 +398,7 @@ img.avatar {
     border-radius: 0;
     box-shadow: inset 0px 0 #0e5895, inset 0 0px #0e5895;
 }
-.bar-title.welcome .menu-button.close{
+/*.bar-title.welcome .menu-button.close{
     background: url(../img/closebutton.jpg) no-repeat!important;
 }
 
@@ -226,38 +411,39 @@ img.avatar {
      background: url(../img/closebutton-active.jpg) no-repeat!important;
      border-radius: 0;
       box-shadow: inset 0px 0 #0e5895, inset 0 0px #0e5895;
+}*/
+.app-menu{
+    margin: 50px 0px 0px 7px;
 }
-.content.welcome.menu  .app-menu{
-    margin: 20px 0px 0px 7px;
-}
-.content.welcome.menu  .app-menu ul{
+.app-menu ul{
     list-style-type: none;
 }
-.content.welcome.menu  .app-menu li{
+.app-menu li{
     height: 55px;
     margin-bottom: 30px;
     margin-right: 30px;
 }
-.content.welcome.menu  .app-menu ul li a{
+.app-menu ul li a{
     font-family: "Helvetica Neue", sans-serif;
     font-weight: bolder;
-    font-size: 45px;
-    line-height: 45px;
+    font-size: 28px;
+    line-height: 28px;
     width: 100%;
     padding: 10px;
     padding-top: 15px;
     text-transform: uppercase;
-    letter-spacing: -2px;
-    color:#6b0a6f;
-    background: url(../img/menu-tile.png);
+    letter-spacing: -1px;
+    color:#FFF;
+   
+   /* background: url(../img/menu-tile.png);*/
     
 }
-.content.welcome.menu  .app-menu ul li a.selected{
+.app-menu ul li a.selected{
      color:#000;
 }
-.content.welcome.menu  .app-menu ul li a:active{
-    color:#6b0a6f;
-    background-color: #000;
+.app-menu ul li a:active{
+    color:#000;
+   
 }
 
 .title.welcome{
@@ -294,10 +480,13 @@ img.avatar {
 .welcome-body a:active *{
     color:#6b0a6f;
 }
+.measure.you{
+     background-color: #FFF;
+}
 .measure.topliker{
     width: 320px;
     height: 150px;
-    background-color: #FFF;
+    background-color: rgb(248, 247, 247);
     overflow: hidden;
 }
 .measure.topliker .profile-avatar{
@@ -307,15 +496,17 @@ img.avatar {
     z-index: 9;
 }
 .measure.topliker .pct{
-    color:#6b0a6f;
+    color: #6b0a6f;
     position: absolute;
-    top: 46px;
-    right: 5px;
-    font-size: 80px;
+    top: 72px;
+    right: 11px;
+    font-size: 50px;
+    letter-spacing: -3px;
 }
 .measure.topliker .pctdesc{
     font-size: 14px;
     color: black;
+    margin-left: 4px;
 }
 .measure.topliker .likesmall{
     font-size: 14px;
@@ -327,7 +518,6 @@ img.avatar {
     color: black;
 }
 .measure.topliker .profile-avatar .circle{
-
 width: 60px;
 height: 60px;
 margin: -40px 0 0 -40px;
@@ -339,9 +529,7 @@ position: absolute;
     width: 320px;
     height: 150px;
     background-color: #FFF;
-    
 }
-
 .measure.map .world-map{
     position: relative;
     width: 323px;
@@ -350,7 +538,6 @@ position: absolute;
     -webkit-transform: scale(0.5);
     left: 55px;
     top: 17px;
-
 }
 .measure.you .outer{
     position: relative;
@@ -360,11 +547,9 @@ position: absolute;
     position: absolute;
     left: 181px;
     bottom: -105px;
-
 } 
 .measure.you .female .cnt{
    color: black;
-    /*font-family: "Helvetica-bold",sans-serif;*/
     font-size: 16px;
     letter-spacing: -1px;
     position: absolute;
@@ -385,11 +570,9 @@ position: absolute;
     position: absolute;
     left: 230px;
     bottom: -105px;
-
 } 
 .measure.you .male .cnt{
    color: black;
-    /*font-family: "Helvetica-bold",sans-serif;*/
     font-size: 16px;
     letter-spacing: -1px;
     position: absolute;
@@ -533,6 +716,23 @@ position: absolute;
     font-size: 12px!important;
     /*vertical-align: bottom;*/
 }
+.likers.pct{
+    position: absolute;
+    top: 30px;
+    left: 70px;
+    font-size: 23px;
+    color: black;
+    letter-spacing: -1px;
+}
+.likers.pct .pctdesc{
+
+    font-size: 11px;
+}
+.likers.pct .total{
+
+    font-size: 13px;
+     color:#6b0a6f;
+}
 .like-cnt{
     position: absolute;
     right: 50px;
@@ -540,6 +740,23 @@ position: absolute;
     font-size: 43px!important;
     letter-spacing: -1px;
 }
+.like-cnt.likers{
+    position: absolute;
+    right: 50px;
+    top: 4px;
+    font-size: 33px!important;
+    letter-spacing: -1px;
+}
+.like-cnt.likers .cnt-small{
+    margin-left: 1px;
+    font-size: 11px;
+    color:#6b0a6f;
+    top: 26px;
+    right: 3px;
+    position: absolute;
+    
+}
+
 .like-cnt .cnt-small{
     margin-left: 1px;
     font-size: 10px;
@@ -549,7 +766,193 @@ position: absolute;
     position: absolute;
     
 }
+.avatar-wrapper{
+    position: relative;
+    margin: 0 auto;
+    width: 150px;
+    margin-top: 14px;
+}
+.profile-avatar.person{
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius: 75px;
+    position: absolute;
+    background-color: #6b0a6f;
+}
+.profile-avatar.person .circle-person{
+    width: 138px;
+    height: 138px;
+    -webkit-border-radius: 80px;
+    position: relative;
+    margin: 6px;
+}
+.winner-cup{
+   width: 116px;
+    height: 138px;
+    background: url(../img/winner-cup.png) no-repeat;
+    position: absolute;
+    left: -24px;
+    top: -2px;
+    z-index: 3;
+    -webkit-transform: scale(0.5);
+}
+.big-header{
+    font-size: 20px;
+    position: relative;
+    margin: 0 auto;
+    width: auto;
+    color: #fff;
+    text-align: center;
+    margin-top: 173px;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    background-color: #6b0a6f;
+    padding: 10px;
+    overflow: hidden;
+}
+.big-header span{
+    font-size: 14px;
+}
+.profile-stats{
+    display: block;
+    height: 65px;
+    width: 320px;
+    overflow: hidden;
+    position: absolute;
+}
+.profile-stats{
+    width: 160px;
+    position: absolute;
+    left: 0px;
+    background-color: #fff;
+}
+.profile-stats .inner .fav{
+    position: absolute;
+    top: 7px;
+    left: 4px;
+}
+.profile-stats .inner .fav .fav-text{
+    height: 32px;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 153px;
+    overflow: hidden;
+}
+.profile-stats .icon{
+    width: 38px;
+    height: 38px;
+    background: url(../img/user-fav.png) no-repeat!important;
+    position: absolute;
+    left: -7px;
+    top: 35px;
+    -webkit-transform: scale(0.5)translate(0px, 0px);
+}
+.profile-stats .inner{
+    position: relative;
+}
+.profile-stats.likes{
+    width: 160px;
+    left: 160px;
+    position: absolute;
+    background-color: rgb(228, 228, 228);
+}
+.profile-stats.likes .icon{
+    width: 38px;
+    height: 38px;
+    background: url(../img/user-like.png) no-repeat!important;
+    position: absolute;
+    left: -7px;
+    top: 35px;
+    -webkit-transform: scale(0.5)translate(0px, 0px);
+}
+.profile-stats .bottom-desc{
+    position: absolute;
+    text-align: right;
+    top: 50px;
+    right: 10px;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+.profile-stats .num-friends{
+    position: absolute;
+    right: 9px;
+    top: -6px;
+    font-size: 41px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    color: black;
+}
+.ranking-container.person{
+    position: absolute;
+    top: 119px;
+    left: 13px;
+    color: black!important;
+}
+.rank-container.person div{
+    color: #6b0a6f;
+}
+.rank-container.person span{
+    color: #6b0a6f;
+    margin-left: -1px
+}
+.ranking-number.person{
+position: relative;
+width: 50px;
+text-align: center;
+color: #6b0a6f;
+font-size: 19px!important;
+font-weight: normal!important;
+top: -9px;
+-webkit-transform: scale(1.9);
+}
+.ranking-number.person.huge span{
+    margin-left: 0px;
+    color: #6b0a6f;
+    font-size: 14px;
+    letter-spacing: 0px;
+}
+.ranking-number.person.huge{
+    position: relative;
+    
+    text-align: right;
+    color: #6b0a6f;
+    font-size: 73px!important;
+    font-weight: normal!important;
+    top: -41px;
+    right: -31px;
+    letter-spacing: -3px;
+}
+.gender-filter-panel{
+    background: rgb(97, 99, 97);
+-webkit-transform: translateY(-100px);
+transform-style: preserve-3d;
+-webkit-transform: rotateX(-256deg);
+height: 0px;
+-webkit-transition-duration: .25s;
+}
+.gender-filter-panel.opened{
+    background: rgb(97, 99, 97);
+/*-webkit-transform: translateY(6px);*/
+-webkit-transform: translateY(0px);
+transform-style: preserve-3d;
+-webkit-transform: rotateX(0deg);
+height: 150px;
+overflow: hidden;
 
+}
+.gender-filer-panel.transition{
 
-
-
+    -webkit-transition-duration: .50s;
+    
+}
+background: rgb(97, 99, 97);
+-webkit-transform: translateY(20px);
+transform-style: preserve-3d;
+-webkit-transform: rotateX(39deg);
+-webkit-perspective-origin: -75% -108%;
+height: 150px;
+-webkit-transition-duration: .25s;
+-webkit-transform-origin: top left;

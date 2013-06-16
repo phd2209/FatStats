@@ -4,21 +4,27 @@
 </header>
 
 <div class="content">
-    
-    {{#if .}}
+   
+   {{#if .}}
     <ul class="list categories">
         {{#each .}}
         <li style="clear: both">
-           <a class="measure topliker" href="#top">
-            <div class="welcome-likes-header">
-              <span>{{name}}</span>
+           <a href="#like/{{ id }}">
+            <div>
+                <span class="topliker-listName">{{name}}</span>
+                <span class="like-cnt likers">{{cnt}}<span class="cnt-small"><br>Likes</span></span>
+
+                <div class="profile-avatar top">
+                    <div class="circle" style="background: url(https://graph.facebook.com/{{ id }}/picture?width=50&height=50) no-repeat center center !important;">
+                 </div>
+
+               </div>
+               <div class="ranking-container">
+               <div class="ranking-number">{{pos}}<span>{{niceNum}}</span></div>
+                </div>
+               
             </div>
-              <div class="profile-avatar">
-                <div class="circle" style="background: url(https://graph.facebook.com/{{ id }}/picture?width=60&height=60) no-repeat center center;">
-              </div>
-            </div>
-              <span class="num-likes">{{cnt}}<span class="likesmall"> likes</span></span>
-          </a>
+            </a>
         </li>
         {{/each}}
     </ul>

@@ -36,6 +36,19 @@ fb.views.Menu = Backbone.View.extend({
     },
 
 });
+fb.views.Person = Backbone.View.extend({
+
+    initialize: function () {
+        var self = this;
+        this.template = fb.templateLoader.get('person');
+        this.render();
+    },
+
+    render: function () {
+        this.$el.html(this.options.template(this.model));
+        return this;
+    },
+});
 
 fb.views.Welcome = Backbone.View.extend({
 
@@ -47,26 +60,8 @@ fb.views.Welcome = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.options.template(this.model));
-        console.log("ss " + this.model)
-        if (this.model != undefined) this.drawDonut();
         return this;
-    },
-    drawDonut: function () {
-        var obj = {
-            segmentShowStroke: false,
-            segmentStrokeColor: "#fff",
-            segmentStrokeWidth: 2,
-            percentageInnerCutout: 40,
-            animation: true,
-            animationSteps: 50,
-            animationEasing: "easeOutQuad",
-            animateRotate: true,
-            animateScale: false,
-        }
-        //this.model.donutObj
-        var myDoughnut = new Chart(document.getElementById("mycanvas").getContext("2d")).Doughnut(this.model.donutObj, obj);
-    },
-
+    }
 });
 
 fb.views.Like = Backbone.View.extend({
@@ -111,6 +106,12 @@ fb.views.Categories = Backbone.View.extend({
 
 fb.views.Toplikers = Backbone.View.extend({
 
+    events: {
+        'click #all': 'getAll',
+        'click #week': 'getWeekly',
+        'click #month': 'getMonthly'
+    },
+
     initialize: function () {
         this.render();
     },
@@ -118,6 +119,31 @@ fb.views.Toplikers = Backbone.View.extend({
     render: function () {
         this.$el.html(this.options.template(this.model));
         return this;
+    },
+
+    getAll: function () {
+        this.$('.num-likes-month').hide();
+        $('.num-likes-week').hide();
+        $('.num-likes-month').hide();
+        this.model = DataService.getTopLikersCollection(fb.userCollection,'ALL');
+        this.render();
+        return false;
+    },
+    getWeekly: function () {
+        $('.num-likes').hide();
+        this.$('.num-likes-month').hide();
+        console.log("WEEK");
+        this.model = DataService.getTopLikersCollection(fb.userCollection, 'WEEK');
+        this.render();
+        return false;
+    },
+    getMonthly: function () {
+        console.log("MONTH");
+        $('.num-likes-week').hide();
+        this.$('.num-likes').hide();
+        this.model = DataService.getTopLikersCollection(fb.userCollection, 'MONTH');
+        this.render();
+        return false;
     }
 
 });

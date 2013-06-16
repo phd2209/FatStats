@@ -15,46 +15,29 @@ fbWrapper = {
     },
 
     batch: function (num) {
+        var number = num;
         var batchdef = $.Deferred();
         try {
+
             console.log('calling fb api in batch'+num);
             for (i = 0; i < num ; i++) {
                 FB.api('/', 'POST', {
                     batch: [
-                        { method: 'GET', name: 'get-likes', "omit_response_on_success": false, relative_url: 'me/likes'},
                         { method: 'GET', name: 'get-friends', "omit_response_on_success": false, relative_url: 'me/friends?fields=id,name,locale,gender&limit=50&offset=' + i * 50 },
                         { method: 'GET', "omit_response_on_success": false, relative_url: 'likes?ids={result=get-friends:$.data.*.id}' }
                     ]
                 }, function (response) {
-
-                    //Count down fetches
-                    fb.fetches--;
+                    var start = new Date().getTime();
+                    number--;
 
                     var body = JSON.parse(response[0].body);
 
-                    if (body.data.length > 0) {
-                        var fbuser = new Object();
-                        fbuser.id = fb.fbid.toString();
-                        fbuser.name = fb.name;
-                        fbuser.country = fb.country;
-                        fbuser.sex = fb.sex;
-                        fb.userCollection.push(fbuser);
-                        fb.userCollection[0].likes = body.data;
-                        fb.userCollection[0].likescount = body.data.length;
-                    }
-
-                    var body = JSON.parse(response[1].body);
-
                     $.each(body.data, function (i, user) {
-                        var fbuser = new Object();
-                        fbuser.id = user.id;
-                        fbuser.name = user.name;
-                        fbuser.country = user.locale;
-                        fbuser.sex = user.gender;
+                        var fbuser = new Object(user);
                         fb.userCollection.push(fbuser);
                     });
 
-                    body = JSON.parse(response[2].body);
+                    body = JSON.parse(response[1].body);
 
                     $.each(body, function (id, user) {
                         for (var i = 0; i < fb.userCollection.length; i++) {
@@ -65,7 +48,13 @@ fbWrapper = {
                             }
                         }
                     });
-                    if (fb.fetches === 0) { batchdef.resolve(response) };
+                    
+                    if (number === 0) {
+                        var end = new Date().getTime();
+                        console.log('batch Execution time: ' + (end - start))
+                        console.dir(fb.userCollection);
+                        batchdef.resolve(response);
+                    };
                 });
             }
         } catch (e) {
@@ -73,6 +62,7 @@ fbWrapper = {
         }
         return batchdef;
     },
+
     photo: function (num) {
         var photos = [];
         var photodef = $.Deferred();
@@ -98,56 +88,52 @@ fbWrapper = {
             photodef.fail();
         }
         return photodef;
-    }
-    /*photo: function (num) {
-        var photodef = $.Deferred();
-        try {
-            console.log('calling fb api in batch' + num);
-            for (i = 0; i <= num ; i++) {
-                FB.api('/', 'POST', {
-                    batch: [
-                        { method: 'GET', name: 'get-likes', "omit_response_on_success": false, relative_url: 'me/photos/likes' },
-                        { method: 'GET', name: 'get-friends', "omit_response_on_success": false, relative_url: 'me/friends?fields=id&limit=50&offset=' + i * 50 },
-                        { method: 'GET', "omit_response_on_success": false, relative_url: 'photos/likes?ids={result=get-friends:$.data.*.id}' }
-                    ]
-                }, function (response) {
+    },
 
-                    //console.log(response);
-                    //Count down fetches
-                    fb.fetches--;
+    checkUserPermissions: function (permissionToCheck) {
+        FB.api("/me/permissions",
+            function (response) {
+                if (response.data[0][permissionToCheck] === 1)
+                    return true;
+                return false;
+            });
+        return true;
+    },
 
-                    var body = JSON.parse(response[0].body);
-                    console.log(body);
-                    //var body1 = JSON.parse(response[1].body);
-                    //console.log(body1);
-
-                    $.each(body.data, function (i, user) {
-                        var fbuser = new Object();
-                        fbuser.id = user.id;
-                        fbuser.name = user.name;
-                        fbuser.country = user.locale;
-                        fbuser.sex = user.gender;
-                        fb.userCollection.push(fbuser);
-                    });
-
-                    var body2 = JSON.parse(response[2].body);
-                    console.log(body2);
-                    
-                    $.each(body, function (id, user) {
-                        for (var i = 0; i < fb.userCollection.length; i++) {
-                            if (id === fb.userCollection[i].id) {
-                                fb.userCollection[i].likes = user.data;
-                                fb.userCollection[i].likescount = user.data.length;
-                                break;
-                            }
-                        }
-                    });
-                    if (fb.fetches === 0) { photodef.resolve(response) };
-                });
+    promptPermission: function(permission) {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                this.checkUserPermissions(permission)
             }
-        } catch (e) {
-            photodef.fail();
-        }
-        return photodef;
-    },*/
+        }, {scope: permission});
+    },
+
+    //Publish a story to the user's own wall
+    publishStory: function() {
+        FB.ui({
+            method: 'feed',
+            name: 'Top3 likers in your social network',
+            caption: 'FatStats: Top 3 likers',
+            description: 'Check out FatStats for Mobile to learn more about what your social network likes.',
+            link: 'http://apps.facebook.com/fatstats/',
+            picture: 'http://www.facebookmobileweb.com/hackbook/img/facebook_icon_large.png',
+            actions: [{ name: 'Get Started', link: 'http://apps.facebook.com/fatstats/' }],
+        },
+        function(response) {
+            console.log('publishStory UI response: ', response);
+            if (response && response.post_id) {
+                console.log('Your post was published.');
+            } else {
+                console.log('Your post was not published.');
+            }
+        });
+    },
+
+    uninstallApp: function () {
+        FB.api('/me/permissions', 'DELETE',
+        function (response) {
+            FB.logout();
+            return false;
+        });
+    }
 }
