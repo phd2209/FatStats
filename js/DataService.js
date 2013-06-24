@@ -166,7 +166,9 @@ DataService = {
         for (var j = 0; j < userCollection.length; j++) {
             if (userCollection[j].likes.length == 0) continue;
             var user = userCollection[j];
-            var topliker = eval(user.toSource());
+            //var topliker = eval(user.toSource());
+            //var toplikerA = JSON.parse(JSON.stringify(user));
+            var topliker = jQuery.extend(true, {}, user);
 
             if (topliker.friend_count != undefined || topliker.friend_count != null) {
                 topliker.active = true;
@@ -253,7 +255,20 @@ DataService = {
         return list;
     },
 
+    /*  getPersonLikesById: gets a person object,
+    parameters:
+      userCollection: collection of users
+      id: The Facebook id of the user 
 
+    Person attributes:
+    id
+    name
+    likescount
+    winner
+    rank
+    num
+    favorite
+*/
 
 
     getPersonLikesById: function (userCollection, id) {
